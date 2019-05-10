@@ -1,7 +1,6 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-print_r($ingridi);
 ?>
 
 <div class="pizza-form">
@@ -13,8 +12,6 @@ print_r($ingridi);
     <?= $form->field($model, 'base')->textInput() ?>
 
     <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($ingridi, 'name')->checkboxList() ?>
 
     <// Полоса ингредиентов >
 

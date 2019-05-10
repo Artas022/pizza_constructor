@@ -5,10 +5,7 @@ $this->title = 'Основная страница';
 
     <div class="jumbotron">
         <h1>Pizza main page</h1>
-
         <p class="lead">Добро пожаловать в ресторан!</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Функционала нет</a></p>
     </div>
 
     <div class="body-content">
