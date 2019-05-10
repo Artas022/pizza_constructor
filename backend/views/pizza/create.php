@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model common\models\Pizza */
 
 $this->title = 'Приготовить новую пиццу';
-$this->params['breadcrumbs'][] = ['label' => 'Pizzas', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Пиццы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="pizza-create">
