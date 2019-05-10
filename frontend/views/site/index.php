@@ -1,7 +1,4 @@
 <?php
-
-/* @var $this yii\web\View */
-
 $this->title = 'Основная страница';
 ?>
 <div class="site-index">

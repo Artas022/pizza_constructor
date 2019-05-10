@@ -47,23 +47,22 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
+
+   /* public function rules()
     {
         return [
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
         ];
     }
-
+*/
     /**
      * {@inheritdoc}
      */
     public static function findIdentity($id)
     {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        //return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['id' => $id]);
     }
 
     /**
@@ -74,15 +73,11 @@ class User extends ActiveRecord implements IdentityInterface
         throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
     }
 
-    /**
-     * Finds user by username
-     *
-     * @param string $username
-     * @return static|null
-     */
+
     public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        //return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['username' => $username]);
     }
 
     /**
@@ -91,7 +86,7 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $token password reset token
      * @return static|null
      */
-    public static function findByPasswordResetToken($token)
+    /*public static function findByPasswordResetToken($token)
     {
         if (!static::isPasswordResetTokenValid($token)) {
             return null;
@@ -101,7 +96,7 @@ class User extends ActiveRecord implements IdentityInterface
             'password_reset_token' => $token,
             'status' => self::STATUS_ACTIVE,
         ]);
-    }
+    }*/
 
     /**
      * Finds user by verification email token
@@ -109,19 +104,20 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $token verify email token
      * @return static|null
      */
-    public static function findByVerificationToken($token) {
+   /* public static function findByVerificationToken($token) {
         return static::findOne([
             'verification_token' => $token,
             'status' => self::STATUS_INACTIVE
         ]);
     }
-
+*/
     /**
      * Finds out if password reset token is valid
      *
      * @param string $token password reset token
      * @return bool
      */
+    /*
     public static function isPasswordResetTokenValid($token)
     {
         if (empty($token)) {
@@ -132,7 +128,7 @@ class User extends ActiveRecord implements IdentityInterface
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         return $timestamp + $expire >= time();
     }
-
+*/
     /**
      * {@inheritdoc}
      */
