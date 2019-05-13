@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\Ingridient;
+use common\models\PizzaIngridient;
 use Yii;
 use common\models\Pizza;
 use app\models\PizzaSearch;
@@ -10,6 +11,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 
 /**
  * PizzaController implements the CRUD actions for Pizza model.
@@ -83,17 +85,27 @@ class PizzaController extends Controller
         // экземпляр пиццы
         $model = new Pizza();
         // экземпляр ингридиентов, которые будут в пицце
-        $ingridi = new Ingridient();
-        //   a $ingridi = Ingridient::find()->asArray()->all();
-
+        $items = ArrayHelper::map(Ingridient::find()->all(),'id_ingridient','name');
+        // получаем все экземпляры для дальнейшего выборка
+        $ingridients = new PizzaIngridient();
+        //$ingridients = Ingridient::find()->all();
         // процес создания пиццы и ингредиентов
-        if ($model->load(Yii::$app->request->post()) && $model->save())
+        if ($model->load(Yii::$app->request->post())  )
         {
+            $ingridients->load(Yii::$app->request->post());
+
+            foreach ($ingridients as $ingridient)
+                echo $ingridient[0];
+
+            die;
             return $this->redirect(['view', 'id' => $model->id_pizza]);
         }
 
         return $this->render('create', [
-            'model' => $model, 'ingridi' => $ingridi,
+            'model' => $model, 'ingridients' => $ingridients,
+            //'ingridients_selected' => $ingridients_selected,
+            'items' => $items,
+
         ]);
     }
 

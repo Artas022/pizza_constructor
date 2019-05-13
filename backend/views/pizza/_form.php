@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\select2\Select2;
 ?>
 
 <div class="pizza-form">
@@ -13,14 +14,25 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
 
-    <// Полоса ингредиентов >
+    <// Полоса ингредиентов через select2 >
+
+<?=
+$form->field($ingridients, 'ingridient_id')->widget(Select2::classname(),[
+'name' => 'ingridients',
+'data' => $items,
+'options' => [
+'placeholder' => 'Укажите один или несколько ингридиентов ...',
+'multiple' => true
+],
+]);
+?>
 
 
-
-    <div class="form-group">
+<div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
-
+<?php
+?>
 </div>
