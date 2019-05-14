@@ -4,19 +4,15 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\IngridientSearch */
+/* @var $searchModel app\models\OrdersSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Ингредиенты';
+$this->title = 'Стол заказов';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="ingridient-index">
+<div class="orders-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Добавить ингредиент', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -26,9 +22,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id_ingridient',
-            'name',
-            'price',
+            'id_order',
+            'phonenumber',
+            'id_pizza',
+            'payment',
+            'status',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

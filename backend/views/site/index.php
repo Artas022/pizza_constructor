@@ -23,8 +23,8 @@ $this->title = 'Панель шефа';
                 <?= yii\helpers\Html::a('Создать шедевр кулинарного дела &raquo', ['/pizza'], ['class'=>'btn btn-primary']) ?>
             </div>
             <div class="col-lg-4">
-                <p class="lead">Чего там так долго на кухне?! Клиенты ждут!</p>
-                <p><a class="btn btn-primary" href="http://www.yiiframework.com/extensions/"> Зайти на кухню(не работает) &raquo;</a></p>
+                <p class="lead">Чего там так долго на кухне?! Время - деньги! Клиенты ждут!</p>
+                <?= yii\helpers\Html::a('Проверить заказы &raquo', ['/orders'], ['class'=>'btn btn-primary']) ?>
             </div>
 
         </div>

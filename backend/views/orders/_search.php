@@ -4,22 +4,26 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\IngridientSearch */
+/* @var $model app\models\OrdersSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="ingridient-search">
+<div class="orders-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id_ingridient') ?>
+    <?= $form->field($model, 'id_order') ?>
 
-    <?= $form->field($model, 'name') ?>
+    <?= $form->field($model, 'phonenumber') ?>
 
-    <?= $form->field($model, 'price') ?>
+    <?= $form->field($model, 'id_pizza') ?>
+
+    <?= $form->field($model, 'payment') ?>
+
+    <?= $form->field($model, 'status') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

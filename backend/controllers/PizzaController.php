@@ -84,28 +84,22 @@ class PizzaController extends Controller
     {
         // экземпляр пиццы
         $model = new Pizza();
+        $ingridients = new PizzaIngridient();
         // экземпляр ингридиентов, которые будут в пицце
         $items = ArrayHelper::map(Ingridient::find()->all(),'id_ingridient','name');
-        // получаем все экземпляры для дальнейшего выборка
-        $ingridients = new PizzaIngridient();
-        //$ingridients = Ingridient::find()->all();
-        // процес создания пиццы и ингредиентов
-        if ($model->load(Yii::$app->request->post())  )
+       
+        // загружаем и проверяем на валидность данные модели
+        if ($model->load(Yii::$app->request->post()))
         {
-            $ingridients->load(Yii::$app->request->post());
-
-            foreach ($ingridients as $ingridient)
-                echo $ingridient[0];
-
-            die;
+            $model->save();
+            // рецептуру пиццы добавляем в связную БД
+            $ingridients->saveIngridients($model->id_pizza);
             return $this->redirect(['view', 'id' => $model->id_pizza]);
         }
 
         return $this->render('create', [
             'model' => $model, 'ingridients' => $ingridients,
-            //'ingridients_selected' => $ingridients_selected,
             'items' => $items,
-
         ]);
     }
 
@@ -118,14 +112,15 @@ class PizzaController extends Controller
      */
     public function actionUpdate($id)
     {
+        $ingridients = new PizzaIngridient();
+        $items = ArrayHelper::map(Ingridient::find()->all(),'id_ingridient','name');
         $model = $this->findModel($id);
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_pizza]);
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'model' => $model, 'ingridients' => $ingridients, 'items' => $items,
         ]);
     }
 

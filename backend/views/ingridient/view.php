@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model common\models\Ingridient */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Ingridients', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Ингредиенты', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Delete', ['delete', 'id' => $model->id_ingridient], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Вы уверены, что хотите удалить этот элемент?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -31,7 +31,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id_ingridient',
             'name',
-            'dose',
+            'price',
+        ],
+    ]) ?>
+
+    <?= DetailView::widget([
+        'model' => $model,
+        'attributes' => [
+            'id_ingridient',
+            'name',
             'price',
         ],
     ]) ?>

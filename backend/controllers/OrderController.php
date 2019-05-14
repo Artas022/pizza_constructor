@@ -3,16 +3,16 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Ingridient;
-use app\models\IngridientSearch;
+use common\models\Order;
+use app\models\OrderSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * IngridientController implements the CRUD actions for Ingridient model.
+ * OrderController implements the CRUD actions for Order model.
  */
-class IngridientController extends Controller
+class OrderController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,12 +30,12 @@ class IngridientController extends Controller
     }
 
     /**
-     * Lists all Ingridient models.
+     * Lists all Order models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new IngridientSearch();
+        $searchModel = new OrderSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class IngridientController extends Controller
     }
 
     /**
-     * Displays a single Ingridient model.
+     * Displays a single Order model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,16 +58,16 @@ class IngridientController extends Controller
     }
 
     /**
-     * Creates a new Ingridient model.
+     * Creates a new Order model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Ingridient();
+        $model = new Order();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_ingridient]);
+            return $this->redirect(['view', 'id' => $model->id_order]);
         }
 
         return $this->render('create', [
@@ -76,7 +76,7 @@ class IngridientController extends Controller
     }
 
     /**
-     * Updates an existing Ingridient model.
+     * Updates an existing Order model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -87,7 +87,7 @@ class IngridientController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_ingridient]);
+            return $this->redirect(['view', 'id' => $model->id_order]);
         }
 
         return $this->render('update', [
@@ -96,7 +96,7 @@ class IngridientController extends Controller
     }
 
     /**
-     * Deletes an existing Ingridient model.
+     * Deletes an existing Order model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,15 +110,15 @@ class IngridientController extends Controller
     }
 
     /**
-     * Finds the Ingridient model based on its primary key value.
+     * Finds the Order model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Ingridient the loaded model
+     * @return Order the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Ingridient::findOne($id)) !== null) {
+        if (($model = Order::findOne($id)) !== null) {
             return $model;
         }
 

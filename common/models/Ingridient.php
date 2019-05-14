@@ -9,8 +9,10 @@ use Yii;
  *
  * @property int $id_ingridient
  * @property string $name
- * @property double $dose
  * @property string $price
+ *
+ * @property PizzaIngridient[] $pizzaIngridients
+ * @property Pizza[] $pizzas
  */
 class Ingridient extends \yii\db\ActiveRecord
 {
@@ -28,8 +30,8 @@ class Ingridient extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'dose', 'price'], 'required'],
-            [['dose', 'price'], 'number'],
+            [['name', 'price'], 'required'],
+            [['price'], 'number'],
             [['name'], 'string', 'max' => 255],
         ];
     }
@@ -41,9 +43,24 @@ class Ingridient extends \yii\db\ActiveRecord
     {
         return [
             'id_ingridient' => 'Номер ингредиента',
-            'name' => 'Название ингредиента',
-            'dose' => 'Порция, в граммах',
-            'price' => 'Цена, UAH',
+            'name' => 'Название',
+            'price' => 'Цена',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPizzaIngridients()
+    {
+        return $this->hasMany(PizzaIngridient::className(), ['ingridient_id' => 'id_ingridient']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPizzas()
+    {
+        return $this->hasMany(Pizza::className(), ['id_pizza' => 'pizza_id'])->viaTable('pizza_ingridient', ['ingridient_id' => 'id_ingridient']);
     }
 }

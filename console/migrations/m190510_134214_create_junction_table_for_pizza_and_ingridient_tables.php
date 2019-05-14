@@ -17,9 +17,9 @@ class m190510_134214_create_junction_table_for_pizza_and_ingridient_tables exten
     public function safeUp()
     {
         $this->createTable('{{%pizza_ingridient}}', [
-            'pizza_id' => $this->integer(),
-            'portions' => $this->float(),
-            'ingridient_id' => $this->integer(),
+            'pizza_id' => $this->integer()->notNull(),
+            'portions' => $this->float()->notNull(),
+            'ingridient_id' => $this->integer()->notNull(),
             'PRIMARY KEY(pizza_id, ingridient_id)',
         ]);
 

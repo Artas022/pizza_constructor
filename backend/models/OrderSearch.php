@@ -4,12 +4,12 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Ingridient;
+use common\models\Order;
 
 /**
- * IngridientSearch represents the model behind the search form of `common\models\Ingridient`.
+ * OrderSearch represents the model behind the search form of `common\models\Order`.
  */
-class IngridientSearch extends Ingridient
+class OrderSearch extends Order
 {
     /**
      * {@inheritdoc}
@@ -17,9 +17,9 @@ class IngridientSearch extends Ingridient
     public function rules()
     {
         return [
-            [['id_ingridient'], 'integer'],
-            [['name'], 'safe'],
-            [['price'], 'number'],
+            [['id_order', 'id_pizza', 'status'], 'integer'],
+            [['phonenumber'], 'safe'],
+            [['payment'], 'number'],
         ];
     }
 
@@ -41,7 +41,7 @@ class IngridientSearch extends Ingridient
      */
     public function search($params)
     {
-        $query = Ingridient::find();
+        $query = Order::find();
 
         // add conditions that should always apply here
 
@@ -59,11 +59,13 @@ class IngridientSearch extends Ingridient
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id_ingridient' => $this->id_ingridient,
-            'price' => $this->price,
+            'id_order' => $this->id_order,
+            'id_pizza' => $this->id_pizza,
+            'payment' => $this->payment,
+            'status' => $this->status,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'phonenumber', $this->phonenumber]);
 
         return $dataProvider;
     }

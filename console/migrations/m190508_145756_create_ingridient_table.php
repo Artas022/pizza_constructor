@@ -22,7 +22,7 @@ class m190508_145756_create_ingridient_table extends Migration
             // название ингридиента
             'name' => $this->string()->notNull(),
             // порция
-            'dose' => $this->float()->notNull(),
+            //'dose' => $this->float()->notNull(),
             // цена ингридиента
             'price' => $this->money()->notNull(),
         ],$tableOptions);
