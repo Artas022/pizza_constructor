@@ -126,16 +126,21 @@ class SiteController extends Controller
         {
             foreach ($model['id_pizza'] as $item)
             {
-                $order = new Order();
-                $order->phonenumber = $model->phonenumber;
-                $order->id_pizza = $item['id_pizza'];
                 // найти пиццу в БД по номеру
                 // добавить её стоимость в заказ
                 // поставить статус выполнения 0
                 // сохранить заказ
+                $order = new Order();
+                $order->phonenumber = $model->phonenumber;
+                $order->id_pizza = $item;
+                $pizza = Pizza::findOne(['id_pizza' => $item]);
+                $order->payment = $pizza['price']/100;
+                $order->status = 0;
+                $order->save();
+
             }
-            
-            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+            Yii::$app->session->setFlash('success', 'Ваш заказ успешно отправлен в обработку! Наш сотрудник свяжется с вами в скором времени!');
+            return $this->goHome();
         }
         return $this->render('order', compact('model','items'));
     }

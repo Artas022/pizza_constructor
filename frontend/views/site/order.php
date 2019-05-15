@@ -11,7 +11,7 @@ use kartik\select2\Select2;
 
 <?= $form->field($model, 'phonenumber')->textInput(['maxlength' => true]) ?>
 
-<// Полоса ингредиентов через select2 >
+<// Полоса ингредиентов через Select2 >
 
 <?=
 $form->field($model, 'id_pizza')->label('Ассортимент пицц:')->widget(Select2::classname(),[

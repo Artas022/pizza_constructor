@@ -28,7 +28,6 @@ class OrderForm extends Model
     {
         return [
             [['phonenumber', 'id_pizza'], 'required'],
-            [['id_pizza'], 'integer'],
             [['phonenumber'], 'string', 'max' => 20],
         ];
     }
