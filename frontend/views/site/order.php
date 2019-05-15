@@ -11,7 +11,7 @@ use kartik\select2\Select2;
 
 <?= $form->field($model, 'phonenumber')->textInput(['maxlength' => true]) ?>
 
-<// Полоса ингредиентов через Select2 >
+<// Меню с множественным выбором пицц через Select2 >
 
 <?=
 $form->field($model, 'id_pizza')->label('Ассортимент пицц:')->widget(Select2::classname(),[
@@ -28,6 +28,7 @@ $form->field($model, 'id_pizza')->label('Ассортимент пицц:')->wid
 
 <div class="form-group">
     <?= Html::submitButton('Оформить заказ', ['class' => 'btn btn-success']) ?>
+    <?= yii\helpers\Html::a('Я сам соберу себе пиццу! &raquo', ['site/create'], ['class'=>'btn btn-primary']) ?>
 </div>
 
 <?php ActiveForm::end(); ?>

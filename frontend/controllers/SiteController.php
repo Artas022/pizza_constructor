@@ -3,23 +3,49 @@ namespace frontend\controllers;
 
 use common\models\Order;
 use common\models\Pizza;
+use frontend\models\CreatePizzaForm;
 use frontend\models\OrderForm;
+use common\models\Ingridient;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use common\models\LoginForm;
 use yii\helpers\ArrayHelper;
-use frontend\models\SignupForm;
 
-/**
- * Site controller
- */
+
 class SiteController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
+    public function actionCreate()
+    {
+        $model = new CreatePizzaForm();
+        $items = ArrayHelper::map(Ingridient::find()->all(),'id_ingridient','name');
+        if($model->load(Yii::$app->request->post()) && $model->validate())
+        {
+            $pizza = new Pizza();
+            $pizza->title = "Конструктор пицц";
+            $pizza->base = $model->base;
+
+            // Считаем стоимость пиццы по id ингредиентов в foreach
+            // Результат записываем в стоимость пиццы
+            // Cохраняем кастомную пиццу
+
+            // Создаём заказ на основе созданной пиццы
+            foreach ($model as $item)
+            {
+                $order = new Order();
+
+                $order->phonenumber = $model->phonenumber;
+                $order->id_pizza = $item;
+                $pizza = Pizza::findOne(['id_pizza' => $item]);
+                $order->payment = $pizza['price']/100;
+                $order->status = 0;
+                $order->save();
+            }
+        }
+
+        return $this->render('create', compact('model','items'));
+    }
+
     public function behaviors()
     {
         return [
@@ -48,9 +74,6 @@ class SiteController extends Controller
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function actions()
     {
         return [
@@ -64,60 +87,13 @@ class SiteController extends Controller
         ];
     }
 
-    /**
-     * Displays homepage.
-     *
-     * @return mixed
-     */
     public function actionIndex()
     {
         $menu = new Pizza();
         $menu = Pizza::find()->asArray()->all();
         return $this->render('index',compact('menu'));
     }
-
-    /**
-     * Logs in a user.
-     *
-     * @return mixed
-     */
-    // Авторизация
-    public function actionLogin()
-    {
-        // редирект на главную в случае, если user - гость
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        }
-        $model->password = '';
-        return $this->render('login', [
-            'model' => $model,
-        ]);
-    }
-
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
-    }
-
-    public function actionSignup()
-    {
-        $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
-            return $this->goHome();
-        }
-
-        return $this->render('signup', [
-            'model' => $model,
-        ]);
-    }
-
+    
     public function actionOrder()
     {
         $model = new OrderForm();
@@ -147,3 +123,30 @@ class SiteController extends Controller
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
