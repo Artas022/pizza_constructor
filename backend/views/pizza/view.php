@@ -25,7 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -33,6 +32,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             'base',
             'price',
+        ],
+    ]) ?>
+    <?= DetailView::widget([
+        'model' => $ingridients,
+        'attributes' => [
+            'pizza_id',
         ],
     ]) ?>
 

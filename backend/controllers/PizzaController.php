@@ -62,24 +62,19 @@ class PizzaController extends Controller
         ]);
     }
 
-    /**
-     * Displays a single Pizza model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionView($id)
     {
+        // Загрузить через связи модель ингредиентов для пиццы с $id
+        // передать на страницу
+        // загрузить в GridView или другой таблице для отображения рецептуры
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model'
+            => $this->findModel($id),
+           // 'ingridients'
+           // => $ingridients = PizzaIngridient::findOne(['pizza_id' => $id]),
         ]);
     }
 
-    /**
-     * Creates a new Pizza model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
     public function actionCreate()
     {
         // экземпляр пиццы
