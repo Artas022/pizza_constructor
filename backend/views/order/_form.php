@@ -12,11 +12,11 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'phonenumber')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'phonenumber')->textInput(['maxlength' => true, 'readonly' => true]) ?>
 
-    <?= $form->field($model, 'id_pizza')->textInput() ?>
+    <?= $form->field($model, 'id_pizza')->textInput(['readonly' => true]) ?>
 
-    <?= $form->field($model, 'payment')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'payment')->textInput(['maxlength' => true, 'readonly' => true]) ?>
 
     <?= $form->field($model, 'status')->textInput() ?>
 
