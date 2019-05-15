@@ -19,7 +19,7 @@ use unclead\multipleinput\MultipleInput;
     <// Полоса ингредиентов через MultipliInput >
 
     <?= $form->field($ingridients, 'ingridient_id')->label("Рецептура пиццы")->widget(MultipleInput::className(), [
-        'max' => 4,
+        'max' => 15,
         'columns' => [
             [
                 'name'  => 'ingridient_id',

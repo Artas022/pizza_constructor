@@ -119,11 +119,15 @@ class PizzaController extends Controller
 
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $ingridients = new PizzaIngridient();
+        $id_pizza = $this->findModel($id);
+        // удаляем ингредиенты из связной таблицы
+        $ingridients->deleteAll(['pizza_id' => $id_pizza['id_pizza']]);
+        // удаляем пиццу из таблицы пицц
+        $id_pizza->delete();
         return $this->redirect(['index']); 
     }
-    
+
     protected function findModel($id)
     {
         if (($model = Pizza::findOne($id)) !== null) {

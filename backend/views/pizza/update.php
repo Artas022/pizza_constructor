@@ -8,7 +8,7 @@ use yii\helpers\Html;
 $this->title = 'Изменение рецептуры пиццы с названием ' . $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Пиццы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id_pizza]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Изменить рецептуру';
 ?>
 <div class="pizza-update">
 
