@@ -1,9 +1,8 @@
 <?php
 namespace frontend\controllers;
 
-use app\models\Order;
+use common\models\Order;
 use common\models\Pizza;
-use common\models\User;
 use frontend\models\OrderForm;
 use Yii;
 use yii\web\Controller;
@@ -123,9 +122,20 @@ class SiteController extends Controller
     {
         $model = new OrderForm();
         $items = ArrayHelper::map(Pizza::find()->all(),'id_pizza','title');
-        if($model->load(Yii::$app->request->post()))
+        if($model->load(Yii::$app->request->post()) && $model->validate()) 
         {
-            print_r($model);
+            foreach ($model['id_pizza'] as $item)
+            {
+                $order = new Order();
+                $order->phonenumber = $model->phonenumber;
+                $order->id_pizza = $item['id_pizza'];
+                // найти пиццу в БД по номеру
+                // добавить её стоимость в заказ
+                // поставить статус выполнения 0
+                // сохранить заказ
+            }
+            
+            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
         }
         return $this->render('order', compact('model','items'));
     }

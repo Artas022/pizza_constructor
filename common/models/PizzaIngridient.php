@@ -74,9 +74,6 @@ class PizzaIngridient extends \yii\db\ActiveRecord
         {
             foreach ($this['ingridient_id'] as $ingridient)
             {
-                //echo 'For pizza # ' . 3 . ' save ingridient # ' ;
-                //echo  $ingridient['ingridient_id'] . ' with portions = ' . $ingridient['portions'];
-                //echo '<br>';
                 // Экземпляр пиццы
                 $model = new PizzaIngridient();
                 // даём номер пиццы
