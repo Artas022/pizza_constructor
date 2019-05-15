@@ -26,7 +26,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'rememberMe')->checkbox()->label("Запомните меня уже!") ?>
 
                 <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                    <?= Html::submitButton('Авторизация', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                    <?= yii\helpers\Html::a('Ещё не зарегестрированы? &raquo', ['site/signup'], ['class'=>'btn btn-primary']) ?>
                 </div>
 
             <?php ActiveForm::end(); ?>
