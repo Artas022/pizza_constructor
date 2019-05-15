@@ -18,7 +18,7 @@ class m190510_134214_create_junction_table_for_pizza_and_ingridient_tables exten
     {
         $this->createTable('{{%pizza_ingridient}}', [
             'pizza_id' => $this->integer()->notNull(),
-            'portions' => $this->float()->notNull(),
+            'portions' => $this->integer()->notNull(),
             'ingridient_id' => $this->integer()->notNull(),
             'PRIMARY KEY(pizza_id, ingridient_id)',
         ]);
