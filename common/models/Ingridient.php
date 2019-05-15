@@ -31,7 +31,7 @@ class Ingridient extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'price'], 'required'],
-            [['price'], 'number'],
+            [['price'], 'integer'],
             [['name'], 'string', 'max' => 255],
         ];
     }

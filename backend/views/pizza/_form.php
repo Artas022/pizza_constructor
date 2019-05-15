@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\select2\Select2;
+use unclead\multipleinput\MultipleInput;
 
 ?>
 
@@ -15,17 +16,28 @@ use kartik\select2\Select2;
 
     <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
 
-    <// Полоса ингредиентов через select2 >
+    <// Полоса ингредиентов через MultipliInput >
 
-    <?=
-        $form->field($ingridients, 'ingridient_id')->label('Ингредиенты для пиццы:')->widget(Select2::classname(),[
-        'name' => 'ingridients',
-        'data' => $items,
-        'options' => [
-        'placeholder' => 'Укажите один или несколько ингридиентов ...',
-        'multiple' => true
-        ],
-        ]);
+    <?= $form->field($ingridients, 'ingridient_id')->label("Рецептура пиццы")->widget(MultipleInput::className(), [
+        'max' => 4,
+        'columns' => [
+            [
+                'name'  => 'ingridient_id',
+                'type'  => 'dropDownList',
+                'title' => 'Ингредиент',
+                'defaultValue' => 1,
+                'items' => $items,
+            ],
+            [
+                'name'  => 'portions',
+                'title' => 'Порция',
+                'enableError' => true,
+                'options' => [
+                    'class' => 'input-priority'
+                ]
+            ]
+        ]
+    ]);
     ?>
 
 
