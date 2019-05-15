@@ -19,7 +19,7 @@ class m190510_111811_create_pizza_table extends Migration
             'id_pizza' => $this->primaryKey(),
             'title' => $this->string()->notNull(),
             'base' => $this->integer()->notNull(),
-            'price' => $this->money()->notNull(),
+            'price' => $this->integer()->notNull(),
         ],$tableOptions);
     }
     public function safeDown()

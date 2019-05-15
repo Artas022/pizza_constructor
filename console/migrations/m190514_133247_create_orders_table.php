@@ -20,7 +20,7 @@ class m190514_133247_create_orders_table extends Migration
             // номер пиццы, которую заказал клиент
             'id_pizza' => $this->integer()->notNull(),
             // к оплате
-            'payment' => $this->money()->notNull(),
+            'payment' => $this->integer()->notNull(),
             // статус выполнения заказа:
             // 0 - не выполнен, 1 - выполнен
             'status' => $this->boolean(),
