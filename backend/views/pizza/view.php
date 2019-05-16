@@ -35,11 +35,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'is_custom',
         ],
     ]) ?>
-
+    <p class="lead">Рецептура пиццы</p>
     <?php
     foreach ($ingridients as $ingridient)
     {
-        echo 'Ингредиент: ' . $ingridient['ingridient']['name'] . ', порция: ' . $ingridient['portions'] . '<br>';
+        echo '<strong>' . $ingridient['ingridient']['name'] . ', ' . $ingridient['portions'] . ' грамм' . '</strong>' . '<br>';
     }
     ?>
 
