@@ -32,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             'base',
             'price',
+            'is_custom',
         ],
     ]) ?>
 

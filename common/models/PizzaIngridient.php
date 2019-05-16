@@ -70,8 +70,6 @@ class PizzaIngridient extends \yii\db\ActiveRecord
     // сохранение рецептуры в связную БД
     public function saveIngridients($id_pizza)
     {
-        if($this->load(Yii::$app->request->post()))
-        {
             foreach ($this['ingridient_id'] as $ingridient)
             {
                 // Экземпляр пиццы
@@ -83,6 +81,5 @@ class PizzaIngridient extends \yii\db\ActiveRecord
                 $model->ingridient_id = $ingridient['ingridient_id'];
                 $model->save();
             }
-        }
     }
 }

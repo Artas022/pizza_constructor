@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use phpDocumentor\Reflection\Types\Null_;
+use common\models\Ingridient;
 use Yii;
 
 /**
@@ -44,6 +46,36 @@ class Pizza extends \yii\db\ActiveRecord
             'title' => 'Название',
             'base' => 'Основание, см',
             'price' => 'Цена, UAH',
+            'is_custom' => "Сделанная в конструкторе"
         ];
+    }
+
+    public function CreateCustomPizza($model, $ingridients)
+    {
+        $this->base = $model->base;
+        $this->title = 'Custom';
+        // Считаем стоимость пиццы по id ингредиентов в foreach
+        foreach ($ingridients['ingridient_id'] as $item)
+        {
+            $temp = Ingridient::findOne($item['ingridient_id']);
+            // Результат записываем в стоимость пиццы
+            $this->price += $temp['price']/100*$item['portions'];
+        }
+        $this->price /= 100; $this->price = round($this->price);
+        $this->is_custom = 1;
+        $this->save();
+    }
+
+    public function setPrice($ingridients)
+    {
+        $this->is_custom = 0;
+        foreach ($ingridients['ingridient_id'] as $item)
+        {
+            $temp = Ingridient::findOne($item['ingridient_id']);
+            // Результат записываем в стоимость пиццы
+            $this->price += $temp['price']/100*$item['portions'];
+        }
+        $this->price /= 100; $this->price = round($this->price);
+        $this->save();
     }
 }

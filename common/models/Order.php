@@ -36,9 +36,6 @@ class Order extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [
@@ -49,4 +46,29 @@ class Order extends \yii\db\ActiveRecord
             'status' => 'Статус выполнения',
         ];
     }
+
+    public function CreateCustomOrder($model,$pizza)
+    {
+        $this->phonenumber = $model->phonenumber;
+        $this->id_pizza = $pizza->id_pizza;
+        $this->payment = $pizza['price']/100;
+        $this->status = 0;
+        $this->save();
+    }
+
+    public static function CreateOrder($model)
+    {
+        foreach ($model['id_pizza'] as $item)
+        {
+            $order = new Order();
+            $order->phonenumber = $model->phonenumber;
+            $order->id_pizza = $item;
+            $pizza = Pizza::findOne(['id_pizza' => $item]);
+            $order->payment = $pizza['price']/100;
+            $order->status = 0;
+            $order->save();
+
+        }
+    }
+
 }

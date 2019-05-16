@@ -55,6 +55,7 @@ class PizzaController extends Controller
     {
         $searchModel = new PizzaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->where('is_custom = 0');
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -84,11 +85,11 @@ class PizzaController extends Controller
         $items = ArrayHelper::map(Ingridient::find()->all(),'id_ingridient','name');
        
         // загружаем и проверяем на валидность данные модели
-        if ($model->load(Yii::$app->request->post()))
+        if ($model->load(Yii::$app->request->post()) && $ingridients->load(Yii::$app->request->post()))
         {
-            $model->save();
-            // рецептуру пиццы добавляем в связную БД
+            $model->setPrice($ingridients);
             $ingridients->saveIngridients($model->id_pizza);
+            // рецептуру пиццы добавляем в связную БД
             return $this->redirect(['view', 'id' => $model->id_pizza]);
         }
 

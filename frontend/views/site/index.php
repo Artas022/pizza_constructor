@@ -27,7 +27,7 @@ $this->title = 'Основная страница';
 <tr>
     <td>' . $pizza['title'] . '</td>
     <td>' . $pizza['base'] . '</td>
-    <td>' . ($pizza['price']/100) . ' UAH ' . '</td>
+    <td>' . $pizza['price'] . ' UAH ' . '</td>
 </tr>';
                     }
                     ?>

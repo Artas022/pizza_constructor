@@ -63,4 +63,5 @@ class Ingridient extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Pizza::className(), ['id_pizza' => 'pizza_id'])->viaTable('pizza_ingridient', ['ingridient_id' => 'id_ingridient']);
     }
+    
 }

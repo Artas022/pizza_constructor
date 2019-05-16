@@ -14,8 +14,6 @@ use unclead\multipleinput\MultipleInput;
 
     <?= $form->field($model, 'base')->textInput() ?>
 
-    <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
-
     <// Полоса ингредиентов через MultipliInput >
 
     <?= $form->field($ingridients, 'ingridient_id')->label("Рецептура пиццы")->widget(MultipleInput::className(), [
@@ -39,9 +37,6 @@ use unclead\multipleinput\MultipleInput;
         ]
     ]);
     ?>
-
-
-
 <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
