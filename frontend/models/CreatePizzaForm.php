@@ -19,6 +19,7 @@ class CreatePizzaForm extends Model
     public function attributeLabels()
     {
         return [
+            'phonenumber' => 'Номер телефона',
             'base' => 'Основание пиццы, в см',
             'id_ingridient' => 'Ингредиент',
         ];
@@ -27,9 +28,9 @@ class CreatePizzaForm extends Model
     public function rules()
     {
         return [
-            [['phonenumber'], 'string', 'max' => 20],
-            [['base', 'id_ingridient','phonenumber'], 'required'],
-            [['base'], 'integer'],
+            [['base', 'id_ingridient','phonenumber'],'required'],
+            ['phonenumber', 'string', 'max' => 20],
+            ['base', 'integer'],
         ];
     }
 }

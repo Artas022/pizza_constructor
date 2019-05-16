@@ -24,7 +24,7 @@ $this->title = 'Панель шефа';
             </div>
             <div class="col-lg-4">
                 <p class="lead">Чего там так долго на кухне?! Время - деньги! Клиенты ждут!</p>
-                <?= yii\helpers\Html::a('Проверить заказы &raquo', ['/orders'], ['class'=>'btn btn-primary']) ?>
+                <?= yii\helpers\Html::a('Проверить заказы &raquo', ['/order'], ['class'=>'btn btn-primary']) ?>
             </div>
 
         </div>
