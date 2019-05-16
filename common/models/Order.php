@@ -51,7 +51,7 @@ class Order extends \yii\db\ActiveRecord
     {
         $this->phonenumber = $model->phonenumber;
         $this->id_pizza = $pizza->id_pizza;
-        $this->payment = $pizza['price']/100;
+        $this->payment = $pizza['price'];
         $this->status = 0;
         $this->save();
     }
@@ -64,7 +64,7 @@ class Order extends \yii\db\ActiveRecord
             $order->phonenumber = $model->phonenumber;
             $order->id_pizza = $item;
             $pizza = Pizza::findOne(['id_pizza' => $item]);
-            $order->payment = $pizza['price']/100;
+            $order->payment = $pizza['price'];
             $order->status = 0;
             $order->save();
 

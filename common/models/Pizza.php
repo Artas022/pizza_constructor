@@ -59,9 +59,10 @@ class Pizza extends \yii\db\ActiveRecord
         {
             $temp = Ingridient::findOne($item['ingridient_id']);
             // Результат записываем в стоимость пиццы
-            $this->price += $temp['price']/100*$item['portions'];
+            // Смотрим цену за 1 грамм и считаем по кол-ву порций
+            $this->price += ($temp['price']/100)*$item['portions'];
         }
-        $this->price /= 100; $this->price = round($this->price);
+        $this->price = round($this->price);
         $this->is_custom = 1;
         $this->save();
     }
@@ -75,7 +76,7 @@ class Pizza extends \yii\db\ActiveRecord
             // Результат записываем в стоимость пиццы
             $this->price += $temp['price']/100*$item['portions'];
         }
-        $this->price /= 100; $this->price = round($this->price);
+        $this->price = round($this->price);
         $this->save();
     }
 }

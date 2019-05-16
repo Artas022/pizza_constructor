@@ -6,6 +6,8 @@ $this->title = 'Основная страница';
     <div class="jumbotron">
         <h1>Главная страница</h1>
         <p class="lead">Добро пожаловать в ресторан!</p>
+        <?= yii\helpers\Html::a('Сделайте свой первый заказ! &raquo;', ['site/order'], ['class'=>'btn btn-primary']) ?>
+
     </div>
     <div class="body-content">
         <div class="row">

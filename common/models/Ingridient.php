@@ -44,7 +44,7 @@ class Ingridient extends \yii\db\ActiveRecord
         return [
             'id_ingridient' => 'Номер ингредиента',
             'name' => 'Название',
-            'price' => 'Цена',
+            'price' => 'Цена UAH за 100 грамм',
         ];
     }
 
