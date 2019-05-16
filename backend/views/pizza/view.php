@@ -16,8 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id_pizza], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id_pizza], [
+        <?= Html::a('Обновить', ['update', 'id' => $model->id_pizza], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Удалить', ['delete', 'id' => $model->id_pizza], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Вы точно хотите удалить выбранную пиццу?',
@@ -35,5 +35,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'is_custom',
         ],
     ]) ?>
+
+    <?php
+    foreach ($ingridients as $ingridient)
+    {
+        echo 'Ингредиент: ' . $ingridient['ingridient']['name'] . ', порция: ' . $ingridient['portions'] . '<br>';
+    }
+    ?>
 
 </div>

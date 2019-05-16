@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use app\models\IngridientSearch;
 use common\models\Ingridient;
 use common\models\PizzaIngridient;
 use Yii;
@@ -68,9 +69,12 @@ class PizzaController extends Controller
         // Загрузить через связи модель ингредиентов для пиццы с $id
         // передать на страницу
         // загрузить в GridView или другой таблице для отображения рецептуры
+        $ingridients = PizzaIngridient::find()->joinWith(['pizza','ingridient'])->asArray()->where(['pizza_id' => $id])->all();
+
         return $this->render('view', [
             'model'
             => $this->findModel($id),
+            'ingridients' => $ingridients,
            // 'ingridients'
            // => $ingridients = PizzaIngridient::findOne(['pizza_id' => $id]),
         ]);
