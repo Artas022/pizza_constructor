@@ -33,6 +33,7 @@ class Pizza extends \yii\db\ActiveRecord
             [['base'], 'integer'],
             [['price'], 'integer'],
             [['title'], 'string', 'max' => 255],
+            [['title'],'unique'],
         ];
     }
 

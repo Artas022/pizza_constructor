@@ -7,7 +7,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
 use common\models\LoginForm;
-use frontend\models\SignupForm;
+use backend\models\SignupForm;
 
 /**
  * Site controller

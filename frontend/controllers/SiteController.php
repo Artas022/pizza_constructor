@@ -91,7 +91,7 @@ class SiteController extends Controller
     public function actionOrder()
     {
         $model = new OrderForm();
-        $items = ArrayHelper::map(Pizza::find()->all(),'id_pizza','title');
+        $items = ArrayHelper::map(Pizza::find()->where('is_custom = 0')->all(),'id_pizza','title');
         if($model->load(Yii::$app->request->post()) && $model->validate()) 
         {
             Order::CreateOrder($model);

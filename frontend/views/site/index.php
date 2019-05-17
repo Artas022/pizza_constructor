@@ -26,7 +26,7 @@ $this->title = 'Основная страница';
                     foreach ($menu as $pizza)
                     {
                         echo '
-<tr>
+<tr>                
     <td>' . $pizza['title'] . '</td>
     <td>' . $pizza['base'] . '</td>
     <td>' . $pizza['price'] . ' UAH ' . '</td>
