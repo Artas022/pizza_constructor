@@ -6,27 +6,13 @@ use phpDocumentor\Reflection\Types\Null_;
 use common\models\Ingridient;
 use Yii;
 
-/**
- * This is the model class for table "pizza".
- *
- * @property int $id_pizza
- * @property string $title
- * @property int $base
- * @property string $price
- */
+
 class Pizza extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName()
     {
         return 'pizza';
     }
-
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
@@ -47,7 +33,6 @@ class Pizza extends \yii\db\ActiveRecord
             'title' => 'Название',
             'base' => 'Основание, см',
             'price' => 'Цена, UAH',
-            'is_custom' => "Сделанная в конструкторе"
         ];
     }
 
@@ -64,13 +49,11 @@ class Pizza extends \yii\db\ActiveRecord
             $this->price += ($temp['price']/100)*$item['portions'];
         }
         $this->price = round($this->price);
-        $this->is_custom = 1;
         $this->save();
     }
 
     public function setPrice($ingridients)
     {
-        $this->is_custom = 0;
         foreach ($ingridients['ingridient_id'] as $item)
         {
             $temp = Ingridient::findOne($item['ingridient_id']);

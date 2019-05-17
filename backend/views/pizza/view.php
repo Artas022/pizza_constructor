@@ -32,7 +32,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             'base',
             'price',
-            'is_custom',
         ],
     ]) ?>
     <p class="lead">Рецептура пиццы</p>

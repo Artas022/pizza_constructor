@@ -59,6 +59,15 @@ class SiteController extends Controller
     
     public function actionCreate()
     {
+        
+        // создать ассоциативный массив для записи JSON 
+        
+        // записать имена и порции ингредиентов
+        
+        // посчитать сумму ингредиентов
+        
+        // сохранить в модель Order
+        
         $model = new CreatePizzaForm();
         $ingridients = new PizzaIngridient();
         $items = ArrayHelper::map(Ingridient::find()->all(),'id_ingridient','name');
