@@ -67,8 +67,11 @@ class OrderController extends Controller
      */
     public function actionView($id)
     {
+        $sql = Order::find()->select('custom_pizza')->where(['id_order' => $id])->one();
+        $ingridients = (array) json_decode($sql['custom_pizza']);
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'ingridients' => $ingridients,
         ]);
     }
 

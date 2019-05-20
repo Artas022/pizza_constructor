@@ -37,4 +37,9 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
+    <?php
+    // если пицца сделана в конструкторе - вывод рецептуры
+    \common\models\Order::ShowRecept($ingridients);
+    ?>
+
 </div>

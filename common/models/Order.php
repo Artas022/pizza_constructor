@@ -29,7 +29,7 @@ class Order extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['phonenumber', 'id_pizza', 'payment'], 'required'],
+            [['phonenumber', 'payment'], 'required'],
             [['id_pizza', 'status'], 'integer'],
             [['payment'], 'number'],
             [['phonenumber'], 'string', 'max' => 20],
@@ -68,6 +68,18 @@ class Order extends \yii\db\ActiveRecord
             $order->status = 0;
             $order->save();
 
+        }
+    }
+    
+    public static function ShowRecept($ingridients)
+    {
+        if($ingridients)
+        {
+            echo '<p class="lead">' . 'Рецептура заказной пиццы c основанием ' . $ingridients['base'] . ' см:' . '</p>';
+            for($i = 0; $i < count($ingridients['ingridient_name']); $i++)
+            {
+                echo '<strong>' . 'Ингредиент: ' . $ingridients['ingridient_name'][$i] . ', порция: ' . $ingridients['portion'][$i] . '</strong>' .'<br>';
+            }
         }
     }
 
