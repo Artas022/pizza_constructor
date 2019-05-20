@@ -90,7 +90,6 @@ class SiteController extends Controller
             // зашифровать в JSON формат и сохранить в поле заказа
             $order->custom_pizza = json_encode($custom_pizza);
             $order->save();
-            //print_r($order);die;
             Yii::$app->session->setFlash('success', 'Ваш особый заказ принят! Наш сотрудник свяжется с вами в скором времени!');
             return $this->goHome();
 
