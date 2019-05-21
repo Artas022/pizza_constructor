@@ -16,7 +16,7 @@ class ServiceCustomPizza
     
     public function create($POST, CreatePizzaForm $model)
     {
-        // загрузка моделей
+        // загрузка моделей и валидация
         if ($model->load($POST) && $model->validate())
         {
                 // ассоциативный массив для записи рецептуры в JSON

@@ -41,15 +41,6 @@ class Order extends \yii\db\ActiveRecord
         ];
     }
 
-    public function CreateCustomOrder($model,$pizza)
-    {
-        $this->phonenumber = $model->phonenumber;
-        $this->id_pizza = $pizza->id_pizza;
-        $this->payment = $pizza['price'];
-        $this->status = 0;
-        $this->save();
-    }
-
     public static function CreateOrder($model)
     {
         foreach ($model['id_pizza'] as $item)
