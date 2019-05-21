@@ -4,15 +4,6 @@ namespace common\models;
 
 use Yii;
 
-/**
- * This is the model class for table "orders".
- *
- * @property int $id_order
- * @property string $phonenumber
- * @property int $id_pizza
- * @property string $payment
- * @property int $status
- */
 class Order extends \yii\db\ActiveRecord
 {
     public static function tableName()

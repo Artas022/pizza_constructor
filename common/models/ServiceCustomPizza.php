@@ -13,8 +13,13 @@ class ServiceCustomPizza
     {
         $this->pirep = $CustomPizzaRepository;
     }
-    
-    public function create($POST, CreatePizzaForm $model)
+
+    //---------------- Оптимизировать ------------//
+
+    // С помощью возврата params[], где внутри будут хранится значения для передачи во view
+    // с помощью возврата массива, где будут хранится значения
+
+    public function create( &$return,$POST, CreatePizzaForm $model)//: array
     {
         // загрузка моделей и валидация
         if ($model->load($POST) && $model->validate())
@@ -47,7 +52,7 @@ class ServiceCustomPizza
                 $order->custom_pizza = json_encode($custom_pizza);
                 $order->save();
                 Yii::$app->session->setFlash('success', 'Ваш особый заказ принят! Наш сотрудник свяжется с вами в скором времени!');
-            return true;
+                return true; //['status'=> true, 'pararm'=>;
         }
     }
 }

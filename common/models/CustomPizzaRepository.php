@@ -8,7 +8,6 @@
 
 namespace common\models;
 
-
 class CustomPizzaRepository
 {
     // Нахождение ингредиента по имени
