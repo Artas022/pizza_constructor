@@ -3,17 +3,11 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use common\models\User;
-/**
- * Signup form
- */
 class SignupForm extends Model
 {
     public $username;
     public $email;
     public $password;
-    /**
-     * {@inheritdoc}
-     */
 
     public function attributeLabels()
     {
@@ -40,11 +34,6 @@ class SignupForm extends Model
             ['password', 'string', 'min' => 6],
         ];
     }
-    /**
-     * Signs user up.
-     *
-     * @return bool whether the creating new account was successful and email was sent
-     */
     public function signup()
     {
         if (!$this->validate()) {
@@ -59,11 +48,7 @@ class SignupForm extends Model
         $user->generateEmailVerificationToken();
         return $user->save() && $this->sendEmail($user);
     }
-    /**
-     * Sends confirmation email to user
-     * @param User $user user model to with email should be send
-     * @return bool whether the email was sent
-     */
+    
     protected function sendEmail($user)
     {
         return Yii::$app

@@ -4,29 +4,13 @@ namespace common\models;
 
 use Yii;
 
-/**
- * This is the model class for table "pizza_ingridient".
- *
- * @property int $pizza_id
- * @property double $portions
- * @property int $ingridient_id
- *
- * @property Ingridient $ingridient
- * @property Pizza $pizza
- */
 class PizzaIngridient extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName()
     {
         return 'pizza_ingridient';
     }
-
-    /**
-     * {@inheritdoc}
-     */
+    
     public function rules()
     {
         return [
@@ -38,10 +22,7 @@ class PizzaIngridient extends \yii\db\ActiveRecord
             [['pizza_id'], 'exist', 'skipOnError' => true, 'targetClass' => Pizza::className(), 'targetAttribute' => ['pizza_id' => 'id_pizza']],
         ];
     }
-
-    /**
-     * {@inheritdoc}
-     */
+    
     public function attributeLabels()
     {
         return [
@@ -50,18 +31,12 @@ class PizzaIngridient extends \yii\db\ActiveRecord
             'ingridient_id' => 'Ingridient ID',
         ];
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
+    
     public function getIngridient()
     {
         return $this->hasOne(Ingridient::className(), ['id_ingridient' => 'ingridient_id']);
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
+    
     public function getPizza()
     {
         return $this->hasOne(Pizza::className(), ['id_pizza' => 'pizza_id']);

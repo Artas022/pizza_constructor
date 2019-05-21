@@ -3,6 +3,7 @@
 namespace common\models;
 
 use frontend\models\CreatePizzaForm;
+use Yii;
 
 class ServiceCustomPizza
 {
@@ -28,7 +29,7 @@ class ServiceCustomPizza
                 $order = new Order();
                 // Добавляем из модели формы информацию:
                 // основание, телефон
-                $order->phonenumber = $model->phonenumber;
+                $order->phonenumber = $model->phonenumber; 
                 $custom_pizza['base'] = $model->base;
                 // перечень ингредиентов
                 foreach ($model['id_ingridient'] as $ingridient)
@@ -45,7 +46,8 @@ class ServiceCustomPizza
                 // зашифровать в JSON формат и сохранить в поле заказа
                 $order->custom_pizza = json_encode($custom_pizza);
                 $order->save();
-                return true;
+                Yii::$app->session->setFlash('success', 'Ваш особый заказ принят! Наш сотрудник свяжется с вами в скором времени!');
+            return true;
         }
     }
 }

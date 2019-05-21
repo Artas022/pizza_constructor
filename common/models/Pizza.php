@@ -22,10 +22,7 @@ class Pizza extends \yii\db\ActiveRecord
             [['title'],'unique'],
         ];
     }
-
-    /**
-     * {@inheritdoc}
-     */
+    
     public function attributeLabels()
     {
         return [
