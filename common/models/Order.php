@@ -52,8 +52,8 @@ class Order extends \yii\db\ActiveRecord
             $order->payment = $pizza['price'];
             $order->status = 0;
             $order->save();
-
         }
+        Yii::$app->session->setFlash('success', 'Ваш заказ успешно отправлен в обработку! Наш сотрудник свяжется с вами в скором времени!');
     }
     
     public static function ShowRecept($ingridients)

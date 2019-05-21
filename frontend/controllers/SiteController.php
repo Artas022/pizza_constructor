@@ -91,7 +91,6 @@ class SiteController extends Controller
         if($model->load(Yii::$app->request->post()) && $model->validate()) 
         {
             Order::CreateOrder($model);
-            Yii::$app->session->setFlash('success', 'Ваш заказ успешно отправлен в обработку! Наш сотрудник свяжется с вами в скором времени!');
             return $this->goHome();
         }
         return $this->render('order',[
