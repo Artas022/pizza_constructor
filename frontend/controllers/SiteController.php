@@ -68,7 +68,7 @@ class SiteController extends Controller
     // создание клиентской пиццы
     public function actionCreate()
     {
-        // Попытаться избавиться от создания новой формы
+        // Попытаться избавиться от создания новой формы внутри функции контроллера
         $model = new CreatePizzaForm();
         if($this->Service_CustomPizza->create((Yii::$app->request->post()), $model))
             return $this->goHome();
