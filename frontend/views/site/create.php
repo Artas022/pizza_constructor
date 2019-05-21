@@ -21,10 +21,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $form->field($model, 'base')->textInput() ?>
 
-            <// Полоса ингредиентов через Select2 >
+            <// Полоса ингредиентов через MultipleInput >
 
-        <?= $form->field($ingridients, 'ingridient_id')->label("Рецептура пиццы")->widget(MultipleInput::className(), [
-            'max' => 15,
+        <?= $form->field($model, 'id_ingridient')->label("Рецептура пиццы")->widget(MultipleInput::className(), [
+            'max' => 5,
             'columns' => [
                 [
                     'name'  => 'ingridient_id',
@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'title' => 'Порция',
                     'enableError' => true,
                     'options' => [
-                        'class' => 'input-priority'
+                        'class' => 'input-priority',
                     ]
                 ]
             ]

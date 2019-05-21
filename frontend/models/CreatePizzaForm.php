@@ -8,13 +8,14 @@
 
 namespace frontend\models;
 
+use common\models\Ingridient;
 use yii\base\Model;
 
 class CreatePizzaForm extends Model
 {
     public $base;
     public $phonenumber;
-    public $id_ingridient;
+    public $id_ingridient; // && portions
 
     public function attributeLabels()
     {
@@ -28,7 +29,7 @@ class CreatePizzaForm extends Model
     public function rules()
     {
         return [
-            [['base', 'id_ingridient','phonenumber'],'required'],
+            [['base','phonenumber','id_ingridient'],'required'],
             ['phonenumber', 'string', 'max' => 20],
             ['base', 'integer'],
         ];

@@ -3,6 +3,7 @@ namespace frontend\controllers;
 
 use common\models\Order;
 use common\models\Pizza;
+use common\models\ServiceCustomPizza;
 use common\models\ServiceMakecustompizza;
 use frontend\models\CreatePizzaForm;
 use frontend\models\OrderForm;
@@ -17,7 +18,13 @@ use common\models\PizzaIngridient;
 
 class SiteController extends Controller
 {
-    private $MakeCustomPizza_Service;
+    private $Service_CustomPizza;
+
+    public function __construct($id, $module, array $config=[])
+    {
+        parent::__construct($id, $module, $config);
+        $this->Service_CustomPizza = Yii::$container->get(ServiceCustomPizza::class);
+    }
 
     public function behaviors()
     {
@@ -60,35 +67,35 @@ class SiteController extends Controller
         ];
     }
 
-    public function __construct($id, $module, array $config=[])
-    {
-        parent::__construct($id, $module, $config);
-        $this->MakeCustomPizza_Service = Yii::$container->get(ServiceMakecustompizza::class);
-    }
 
     // создание клиентской пиццы
     public function actionCreate()
     {
-        if($this->MakeCustomPizza_Service->make(Yii::$app->request->post()))
+        // форма для обработки данных
+        $model = new CreatePizzaForm();
+        if($this->Service_CustomPizza->create((Yii::$app->request->post()), $model))
         {
             Yii::$app->session->setFlash('success', 'Ваш особый заказ принят! Наш сотрудник свяжется с вами в скором времени!');
             return $this->goHome();
         }
-        
-        return $this->render('create', compact('model','items','ingridients'));
+        return $this->render('create', [
+                'model' => $model,
+                'items' => ArrayHelper::map(Ingridient::find()->all(), 'id_ingridient', 'name'),
+            ]
+        );
     }
 
     public function actionIndex()
     {
-        // отсекаем пользовательские пиццы
-        $menu = Pizza::find()->where('is_custom = 0')->all();
-        return $this->render('index',compact('menu'));
+        return $this->render('index',[
+            "menu" => Pizza::find()->all(),
+        ]);
     }
     
     public function actionOrder()
     {
         $model = new OrderForm();
-        $items = ArrayHelper::map(Pizza::find()->where('is_custom = 0')->all(),'id_pizza','title');
+        $items = ArrayHelper::map(Pizza::find()->all(),'id_pizza','title');
         if($model->load(Yii::$app->request->post()) && $model->validate()) 
         {
             Order::CreateOrder($model);
