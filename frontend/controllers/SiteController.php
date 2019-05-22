@@ -3,10 +3,8 @@ namespace frontend\controllers;
 
 use common\models\Order;
 use common\models\Pizza;
-use common\models\ServiceCustomPizza;
-use frontend\models\CreatePizzaForm;
+use common\models\ServicePizza;
 use frontend\models\OrderForm;
-use common\models\Ingridient;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -16,12 +14,12 @@ use yii\helpers\ArrayHelper;
 
 class SiteController extends Controller
 {
-    private $Service_CustomPizza;
+    private $Service_Pizza;
 
     public function __construct($id, $module, array $config=[])
     {
         parent::__construct($id, $module, $config);
-        $this->Service_CustomPizza = Yii::$container->get(ServiceCustomPizza::class);
+        $this->Service_Pizza = Yii::$container->get(ServicePizza::class);
     }
 
     public function behaviors()
@@ -65,17 +63,15 @@ class SiteController extends Controller
         ];
     }
     
-    // создание клиентской пиццы
+    // конструктор пицц и их заказ
     public function actionCreate()
     {
-        // Попытаться избавиться от создания новой формы внутри функции контроллера
-        $model = new CreatePizzaForm();
-        if($this->Service_CustomPizza->create((Yii::$app->request->post()), $model))
+        if($this->Service_Pizza->create_CustomPizza(Yii::$app->request->post())) //$model = $this->Service_CustomPizza->createModel()))
             return $this->goHome();
-        
+
         return $this->render('create', [
-                'model' => $model,
-                'items' => ArrayHelper::map(Ingridient::find()->all(), 'id_ingridient', 'name'),
+                'model' => $this->Service_Pizza->model,
+                'items' => $this->Service_Pizza->AllIngridients(),
             ]
         );
     }
@@ -84,18 +80,16 @@ class SiteController extends Controller
     {
         return $this->render('index',["menu" => Pizza::find()->all()]);
     }
-    
+
+    // заказ готовых пицц
     public function actionOrder()
     {
-        $model = new OrderForm();
-        if($model->load(Yii::$app->request->post()) && $model->validate()) 
-        {
-            Order::CreateOrder($model);
+        if($this->Service_Pizza->create_Pizza( Yii::$app->request->post()) )
             return $this->goHome();
-        }
+
         return $this->render('order',[
-            'model' => $model,
-            'items' => ArrayHelper::map(Pizza::find()->all(),'id_pizza','title'),
+            'model' => $this->Service_Pizza->model,
+            'items' => $this->Service_Pizza->AllPizza(),
         ]);
     }
 

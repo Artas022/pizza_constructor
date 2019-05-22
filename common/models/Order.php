@@ -31,21 +31,6 @@ class Order extends \yii\db\ActiveRecord
             'status' => 'Статус выполнения',
         ];
     }
-
-    public static function CreateOrder($model)
-    {
-        foreach ($model['id_pizza'] as $item)
-        {
-            $order = new Order();
-            $order->phonenumber = $model->phonenumber;
-            $order->id_pizza = $item;
-            $pizza = Pizza::findOne(['id_pizza' => $item]);
-            $order->payment = $pizza['price'];
-            $order->status = 0;
-            $order->save();
-        }
-        Yii::$app->session->setFlash('success', 'Ваш заказ успешно отправлен в обработку! Наш сотрудник свяжется с вами в скором времени!');
-    }
     
     public static function ShowRecept($ingridients)
     {
