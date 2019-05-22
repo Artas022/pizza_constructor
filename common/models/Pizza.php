@@ -48,16 +48,4 @@ class Pizza extends \yii\db\ActiveRecord
         $this->price = round($this->price);
         $this->save();
     }
-
-    public function setPrice($ingridients)
-    {
-        foreach ($ingridients['ingridient_id'] as $item)
-        {
-            $temp = Ingridient::findOne($item['ingridient_id']);
-            // Результат записываем в стоимость пиццы
-            $this->price += $temp['price']/100*$item['portions'];
-        }
-        $this->price = round($this->price);
-        $this->save();
-    }
 }

@@ -1,15 +1,10 @@
 <?php
 namespace frontend\controllers;
-
-use common\models\Order;
-use common\models\Pizza;
 use common\models\ServicePizza;
-use frontend\models\OrderForm;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use yii\helpers\ArrayHelper;
 
 
 class SiteController extends Controller
@@ -66,7 +61,7 @@ class SiteController extends Controller
     // конструктор пицц и их заказ
     public function actionCreate()
     {
-        if($this->Service_Pizza->create_CustomPizza(Yii::$app->request->post())) //$model = $this->Service_CustomPizza->createModel()))
+        if($this->Service_Pizza->Order_CustomPizza(Yii::$app->request->post()))
             return $this->goHome();
 
         return $this->render('create', [
@@ -78,13 +73,15 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index',["menu" => Pizza::find()->all()]);
+        return $this->render('index',[
+            "menu" => $this->Service_Pizza->PizzaList()
+        ]);
     }
 
     // заказ готовых пицц
     public function actionOrder()
     {
-        if($this->Service_Pizza->create_Pizza( Yii::$app->request->post()) )
+        if($this->Service_Pizza->Order_Pizza(Yii::$app->request->post()) )
             return $this->goHome();
 
         return $this->render('order',[

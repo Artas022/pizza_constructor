@@ -22,17 +22,27 @@ class PizzaRepository
             ->where(['id_ingridient' => $ingridient['ingridient_id']])
             ->one();
     }
-
-    // список всех ингредиентов
+    // список всех ингредиентов для конструктора
     public function getMapIngridients()
     {
         return ArrayHelper::map(Ingridient::find()->all(), 'id_ingridient', 'name');
     }
 
-    // список всех пицц
+    public function getPizzaIngridients($id)
+    {
+        return $this->getPizzaIngridients($id);
+    }
+    
+    // список всех пицц для заказа
     public function getMapPizza()
     {
         return ArrayHelper::map(Pizza::find()->all(),'id_pizza','title');
+    }
+
+    // перечень всех готовых пицц
+    public function getAllPizza()
+    {
+        return Pizza::find()->all();
     }
 
 }

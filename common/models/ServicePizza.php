@@ -5,16 +5,23 @@ namespace common\models;
 use frontend\models\CreatePizzaForm;
 use frontend\models\OrderForm;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 class ServicePizza
 {
     private $pirep;
     
     public $model; // модель 
-
+    public $ingridients; // ингредиенты
+    
     public function __construct(PizzaRepository $PizzaRepository)
     {
         $this->pirep = $PizzaRepository;
+    }
+
+    public function PizzaIngridients($id)
+    {
+        return PizzaIngridient::find()->joinWith(['pizza','ingridient'])->asArray()->where(['pizza_id' => $id])->all();
     }
     
     public function AllPizza()
@@ -26,9 +33,64 @@ class ServicePizza
     {
         return $this->pirep->getMapIngridients();
     }
+    
+    public function PizzaList()
+    {
+        return $this->pirep->getAllPizza();
+    }
+    
+    public function create($POST)
+    {
+        $this->model = new Pizza();
+        $this->ingridients = new PizzaIngridient();
+        // загружаем и проверяем на валидность данные модели
+        if (($this->model->load($POST) && $this->ingridients->load($POST) && ($this->model->validate())))
+        {
 
+            foreach ($this->ingridients['ingridient_id'] as $item)
+            {
+                $temp = Ingridient::findOne($item['ingridient_id']);
+                // Результат записываем в стоимость пиццы
+                $this->model->price += $temp['price']/100*$item['portions'];
+            }
+            
+            $this->model->price = round($this->model->price);
+            $this->model->save();
+            
+            foreach ($this->ingridients['ingridient_id'] as $ingridient)
+            {
+                // Экземпляр пиццы
+                $model = new PizzaIngridient();
+                // даём номер пиццы
+                $model->pizza_id = $this->model->id_pizza;
+                // даём порцию и номер ингредиента
+                $model->portions = $ingridient['portions'];
+                $model->ingridient_id = $ingridient['ingridient_id'];
+                $model->save();
+            }
+            return true;
+        }
+    }
+    
+    public function delete($id)
+    {
+        $this->ingridients = new PizzaIngridient();
+        $this->model = Pizza::findOne($id);
+        // удаляем ингредиенты из связной таблицы
+        $this->ingridients->deleteAll(['pizza_id' => $this->model['id_pizza']]);
+        // удаляем пиццу из таблицы пицц
+        $this->model->delete();
+    }
+    
+    public function update($POST,$id)
+    {
+        $this->ingridients = new PizzaIngridient();
+        $this->model = Pizza::findOne($id);
+        if ($this->model->load($POST) && $this->model->save())
+            return true;
+    }
     // заказ обычной пиццы
-    public function create_Pizza($POST)
+    public function Order_Pizza($POST)
     {
         $this->model = new OrderForm();
         if ($this->model->load($POST) && $this->model->validate()) {
@@ -45,9 +107,8 @@ class ServicePizza
             return true;
         }
     }
-
     // Кастомная пицца
-    public function create_CustomPizza($POST)
+    public function Order_CustomPizza($POST)
     {
         // загрузка моделей и валидация
         $this->model = new CreatePizzaForm();

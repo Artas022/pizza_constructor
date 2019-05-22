@@ -5,6 +5,7 @@ namespace backend\controllers;
 use app\models\IngridientSearch;
 use common\models\Ingridient;
 use common\models\PizzaIngridient;
+use common\models\ServicePizza;
 use Yii;
 use common\models\Pizza;
 use app\models\PizzaSearch;
@@ -19,6 +20,13 @@ use yii\helpers\ArrayHelper;
  */
 class PizzaController extends Controller
 {
+    private $Pizza_Service;
+
+    public function __construct($id, $module, array $config=[])
+    {
+        parent::__construct($id, $module, $config);
+        $this->Pizza_Service = Yii::$container->get(ServicePizza::class);
+    }
 
     public function behaviors()
     {
@@ -46,7 +54,6 @@ class PizzaController extends Controller
         ];
     }
 
-
     public function actionIndex()
     {
         $searchModel = new PizzaSearch();
@@ -61,67 +68,40 @@ class PizzaController extends Controller
 
     public function actionView($id)
     {
-        $ingridients = PizzaIngridient::find()->joinWith(['pizza','ingridient'])->asArray()->where(['pizza_id' => $id])->all();
         return $this->render('view', [
-            'model'
-            => $this->findModel($id),
-            'ingridients' => $ingridients,
+            'model' => $this->findModel($id),
+            'ingridients' => $this->Pizza_Service->PizzaIngridients($id),
         ]);
     }
 
     public function actionCreate()
     {
-        $model = new Pizza();
-        $ingridients = new PizzaIngridient();
-        // загружаем и проверяем на валидность данные модели
-        if (($model->load(Yii::$app->request->post()) && $ingridients->load(Yii::$app->request->post())
-            && ($model->validate())
-        ))
-        {
-            $model->setPrice($ingridients);
-            $ingridients->saveIngridients($model->id_pizza);
-            // рецептуру пиццы добавляем в связную БД
-            return $this->redirect(['view', 'id' => $model->id_pizza]);
-        }
+        if ($this->Pizza_Service->create(Yii::$app->request->post()))
+            return $this->redirect(['view', 'id' => $this->Pizza_Service->model->id_pizza]);
 
         return $this->render('create', [
-            'model' => $model, 
-            'ingridients' => $ingridients,
-            'items' => ArrayHelper::map(Ingridient::find()->all(),'id_ingridient','name'),
+            'model' => $this->Pizza_Service->model,
+            'ingridients' => $this->Pizza_Service->ingridients,
+            'items' => $this->Pizza_Service->AllIngridients(),
         ]);
     }
 
     public function actionUpdate($id)
     {
-        $ingridients = new PizzaIngridient();
-        $model = $this->findModel($id);
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_pizza]);
-        }
+        if ($this->Pizza_Service->update(Yii::$app->request->post(), $id))
+            return $this->redirect(['view', 'id' => $this->model->id_pizza]);
+
         return $this->render('update', [
-            'model' => $model, 
-            'ingridients' => $ingridients, 
-            'items' => ArrayHelper::map(Ingridient::find()->all(),'id_ingridient','name'),
+            'model' => $this->Pizza_Service->model,
+            'ingridients' => $this->Pizza_Service->ingridients,
+            'items' => $this->Pizza_Service->AllIngridients(),
         ]);
     }
 
     public function actionDelete($id)
     {
-        $ingridients = new PizzaIngridient();
-        $id_pizza = $this->findModel($id);
-        // удаляем ингредиенты из связной таблицы
-        $ingridients->deleteAll(['pizza_id' => $id_pizza['id_pizza']]);
-        // удаляем пиццу из таблицы пицц
-        $id_pizza->delete();
+        $this->Pizza_Service->delete($id);
         return $this->redirect(['index']); 
     }
-
-    protected function findModel($id)
-    {
-        if (($model = Pizza::findOne($id)) !== null) {
-            return $model;
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
+    
 }
