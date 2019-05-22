@@ -72,6 +72,11 @@ class ServicePizza
         }
     }
     
+    public function view($id)
+    {
+        return Pizza::findOne($id);
+    }
+    
     public function delete($id)
     {
         $this->ingridients = new PizzaIngridient();

@@ -69,7 +69,7 @@ class PizzaController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->Pizza_Service->view($id),
             'ingridients' => $this->Pizza_Service->PizzaIngridients($id),
         ]);
     }
