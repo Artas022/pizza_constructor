@@ -30,7 +30,7 @@ class PizzaRepository
 
     public function getPizzaIngridients($id)
     {
-        return $this->getPizzaIngridients($id);
+        return PizzaIngridient::find()->joinWith(['pizza','ingridient'])->asArray()->where(['pizza_id' => $id])->all();;
     }
     
     // список всех пицц для заказа
@@ -43,6 +43,11 @@ class PizzaRepository
     public function getAllPizza()
     {
         return Pizza::find()->all();
+    }
+
+    public function view($id)
+    {
+        return Pizza::findOne($id);
     }
 
 }

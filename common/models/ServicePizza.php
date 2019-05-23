@@ -5,103 +5,73 @@ namespace common\models;
 use frontend\models\CreatePizzaForm;
 use frontend\models\OrderForm;
 use Yii;
-use yii\helpers\ArrayHelper;
 
 class ServicePizza
 {
     private $pirep;
-    
-    public $model; // модель 
-    public $ingridients; // ингредиенты
     
     public function __construct(PizzaRepository $PizzaRepository)
     {
         $this->pirep = $PizzaRepository;
     }
 
-    public function PizzaIngridients($id)
+    public function create($POST, &$model, &$ingridients)
     {
-        return PizzaIngridient::find()->joinWith(['pizza','ingridient'])->asArray()->where(['pizza_id' => $id])->all();
-    }
-    
-    public function AllPizza()
-    {
-        return $this->pirep->getMapPizza();
-    }
-    
-    public function AllIngridients()
-    {
-        return $this->pirep->getMapIngridients();
-    }
-    
-    public function PizzaList()
-    {
-        return $this->pirep->getAllPizza();
-    }
-    
-    public function create($POST)
-    {
-        $this->model = new Pizza();
-        $this->ingridients = new PizzaIngridient();
+        $model = new Pizza();
+        $ingridients = new PizzaIngridient();
         // загружаем и проверяем на валидность данные модели
-        if (($this->model->load($POST) && $this->ingridients->load($POST) && ($this->model->validate())))
+        if (($model->load($POST) && $ingridients->load($POST) && ($model->validate())))
         {
-
-            foreach ($this->ingridients['ingridient_id'] as $item)
+            foreach ($ingridients['ingridient_id'] as $item)
             {
                 $temp = Ingridient::findOne($item['ingridient_id']);
                 // Результат записываем в стоимость пиццы
-                $this->model->price += $temp['price']/100*$item['portions'];
+                $model->price += $temp['price']/100*$item['portions'];
             }
-            
-            $this->model->price = round($this->model->price);
-            $this->model->save();
-            
-            foreach ($this->ingridients['ingridient_id'] as $ingridient)
+
+            $model->price = round($model->price);
+            $model->save();
+
+            foreach ($ingridients['ingridient_id'] as $ingridient)
             {
                 // Экземпляр пиццы
-                $model = new PizzaIngridient();
+                $model2 = new PizzaIngridient();
                 // даём номер пиццы
-                $model->pizza_id = $this->model->id_pizza;
+                $model2->pizza_id = $model->id_pizza;
                 // даём порцию и номер ингредиента
-                $model->portions = $ingridient['portions'];
-                $model->ingridient_id = $ingridient['ingridient_id'];
-                $model->save();
+                $model2->portions = $ingridient['portions'];
+                $model2->ingridient_id = $ingridient['ingridient_id'];
+                $model2->save();
             }
             return true;
         }
     }
     
-    public function view($id)
-    {
-        return Pizza::findOne($id);
-    }
-    
     public function delete($id)
     {
-        $this->ingridients = new PizzaIngridient();
-        $this->model = Pizza::findOne($id);
+        $ingridients = new PizzaIngridient();
+        $model = Pizza::findOne($id);
         // удаляем ингредиенты из связной таблицы
-        $this->ingridients->deleteAll(['pizza_id' => $this->model['id_pizza']]);
+        $ingridients->deleteAll(['pizza_id' => $model['id_pizza']]);
         // удаляем пиццу из таблицы пицц
-        $this->model->delete();
+        $model->delete();
     }
     
-    public function update($POST,$id)
+    public function update($POST,$id, &$model, &$ingridients)
     {
-        $this->ingridients = new PizzaIngridient();
-        $this->model = Pizza::findOne($id);
-        if ($this->model->load($POST) && $this->model->save())
+        $ingridients = new PizzaIngridient();
+        $model = Pizza::findOne($id);
+        if ($model->load($POST) && $model->save())
             return true;
     }
     // заказ обычной пиццы
-    public function Order_Pizza($POST)
+    public function Order_Pizza($POST, &$model)
     {
-        $this->model = new OrderForm();
-        if ($this->model->load($POST) && $this->model->validate()) {
-            foreach ($this->model['id_pizza'] as $item) {
+        $model = new OrderForm();
+        if ($model->load($POST) && $model->validate()) {
+            foreach ($model['id_pizza'] as $item) {
                 $order = new Order();
-                $order->phonenumber = $this->model->phonenumber;
+                $order->phonenumber = $model->phonenumber;
                 $order->id_pizza = $item;
                 $pizza = Pizza::findOne(['id_pizza' => $item]);
                 $order->payment = $pizza['price'];
@@ -113,13 +83,12 @@ class ServicePizza
         }
     }
     // Кастомная пицца
-    public function Order_CustomPizza($POST)
+    public function Order_CustomPizza($POST, &$model)
     {
         // загрузка моделей и валидация
-        $this->model = new CreatePizzaForm();
-        $this->model->load($POST);
+        $model = new CreatePizzaForm();
 
-        if ($this->model->load($POST) && $this->model->validate())
+        if ($model->load($POST) && $model->validate())
         {
             // ассоциативный массив для записи рецептуры в JSON
                 $custom_pizza = [
@@ -131,11 +100,11 @@ class ServicePizza
                 $order = new Order();
                 // Добавляем из модели формы информацию:
                 // основание, телефон
-                $order->phonenumber = $this->model->phonenumber; 
-                $custom_pizza['base'] = $this->model->base;
+                $order->phonenumber = $model->phonenumber;
+                $custom_pizza['base'] = $model->base;
                 // перечень ингредиентов
 
-                foreach ($this->model['id_ingridient'] as $ingridient)
+                foreach ($model['id_ingridient'] as $ingridient)
                 {
                     // ищем по номеру имя ингредиента и его стоимость
                     $name_ingridient = $this->pirep->getIngridientName($ingridient);

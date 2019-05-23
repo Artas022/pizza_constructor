@@ -2,18 +2,13 @@
 
 namespace backend\controllers;
 
-use app\models\IngridientSearch;
-use common\models\Ingridient;
-use common\models\PizzaIngridient;
+use common\models\PizzaRepository;
 use common\models\ServicePizza;
 use Yii;
-use common\models\Pizza;
 use app\models\PizzaSearch;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use yii\helpers\ArrayHelper;
 
 /**
  * PizzaController implements the CRUD actions for Pizza model.
@@ -21,11 +16,13 @@ use yii\helpers\ArrayHelper;
 class PizzaController extends Controller
 {
     private $Pizza_Service;
+    private $Repo;
 
     public function __construct($id, $module, array $config=[])
     {
         parent::__construct($id, $module, $config);
         $this->Pizza_Service = Yii::$container->get(ServicePizza::class);
+        $this->Repo = Yii::$container->get(PizzaRepository::class);
     }
 
     public function behaviors()
@@ -69,32 +66,32 @@ class PizzaController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->Pizza_Service->view($id),
-            'ingridients' => $this->Pizza_Service->PizzaIngridients($id),
+            'model' => $this->Repo->view($id),
+            'ingridients' => $this->Repo->getPizzaIngridients($id),
         ]);
     }
 
     public function actionCreate()
     {
-        if ($this->Pizza_Service->create(Yii::$app->request->post()))
-            return $this->redirect(['view', 'id' => $this->Pizza_Service->model->id_pizza]);
+        if ($this->Pizza_Service->create(Yii::$app->request->post(), $model, $ingridients) )
+            return $this->redirect(['view', 'id' => $model->id_pizza]);
 
         return $this->render('create', [
-            'model' => $this->Pizza_Service->model,
-            'ingridients' => $this->Pizza_Service->ingridients,
-            'items' => $this->Pizza_Service->AllIngridients(),
+            'model' => $model,
+            'ingridients' => $ingridients,
+            'items' => $this->Repo->getMapIngridients(),
         ]);
     }
 
     public function actionUpdate($id)
     {
-        if ($this->Pizza_Service->update(Yii::$app->request->post(), $id))
-            return $this->redirect(['view', 'id' => $this->model->id_pizza]);
+        if ($this->Pizza_Service->update(Yii::$app->request->post(), $id, $model, $ingridients))
+            return $this->redirect(['view', 'id' => $model->id_pizza]);
 
         return $this->render('update', [
-            'model' => $this->Pizza_Service->model,
-            'ingridients' => $this->Pizza_Service->ingridients,
-            'items' => $this->Pizza_Service->AllIngridients(),
+            'model' => $model,
+            'ingridients' => $ingridients,
+            'items' => $this->Repo->getMapIngridients(),
         ]);
     }
 

@@ -5,16 +5,19 @@ use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use common\models\PizzaRepository;
 
 
 class SiteController extends Controller
 {
     private $Service_Pizza;
+    private $Repo;
 
     public function __construct($id, $module, array $config=[])
     {
         parent::__construct($id, $module, $config);
         $this->Service_Pizza = Yii::$container->get(ServicePizza::class);
+        $this->Repo = Yii::$container->get(PizzaRepository::class);
     }
 
     public function behaviors()
@@ -61,12 +64,12 @@ class SiteController extends Controller
     // конструктор пицц и их заказ
     public function actionCreate()
     {
-        if($this->Service_Pizza->Order_CustomPizza(Yii::$app->request->post()))
+        if($this->Service_Pizza->Order_CustomPizza(Yii::$app->request->post(), $model))
             return $this->goHome();
 
         return $this->render('create', [
-                'model' => $this->Service_Pizza->model,
-                'items' => $this->Service_Pizza->AllIngridients(),
+                'model' => $model,
+                'items' => $this->Repo->getMapIngridients(),
             ]
         );
     }
@@ -74,19 +77,19 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index',[
-            "menu" => $this->Service_Pizza->PizzaList()
+            "menu" => $this->Repo->getAllPizza(),
         ]);
     }
-
+    
     // заказ готовых пицц
     public function actionOrder()
     {
-        if($this->Service_Pizza->Order_Pizza(Yii::$app->request->post()) )
+        if($this->Service_Pizza->Order_Pizza(Yii::$app->request->post(), $model) )
             return $this->goHome();
 
         return $this->render('order',[
-            'model' => $this->Service_Pizza->model,
-            'items' => $this->Service_Pizza->AllPizza(),
+            'model' => $model,
+            'items' => $this->Repo->getMapPizza(),
         ]);
     }
 

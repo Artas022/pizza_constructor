@@ -32,20 +32,4 @@ class Pizza extends \yii\db\ActiveRecord
             'price' => 'Цена, UAH',
         ];
     }
-
-    public function CreateCustomPizza($model, $ingridients)
-    {
-        $this->base = $model->base;
-        $this->title = 'Custom';
-        // Считаем стоимость пиццы по id ингредиентов в foreach
-        foreach ($ingridients['ingridient_id'] as $item)
-        {
-            $temp = Ingridient::findOne($item['ingridient_id']);
-            // Результат записываем в стоимость пиццы
-            // Смотрим цену за 1 грамм и считаем по кол-ву порций
-            $this->price += ($temp['price']/100)*$item['portions'];
-        }
-        $this->price = round($this->price);
-        $this->save();
-    }
 }
