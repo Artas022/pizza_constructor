@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 use common\models\ServicePizza;
+use frontend\models\OrderForm;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -90,6 +91,22 @@ class SiteController extends Controller
         return $this->render('order',[
             'model' => $model,
             'items' => $this->Repo->getMapPizza(),
+        ]);
+    }
+
+    public function actionAjaxorder()
+    {
+        // не использоваь ActiveForm классы
+        // написать свою валидацию для полей
+        // использовать AJAX для ассинхронной подгрузки пицц
+        if($this->Service_Pizza->Order_AjaxPizza($model, $items))
+        {
+
+        }
+
+        return $this->render('ajaxorder',[
+            'model' => $model,
+            'items' => $items
         ]);
     }
 

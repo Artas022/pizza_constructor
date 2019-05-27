@@ -46,7 +46,7 @@ class ServicePizza
             return true;
         }
     }
-    
+
     public function delete($id)
     {
         $ingridients = new PizzaIngridient();
@@ -79,6 +79,16 @@ class ServicePizza
                 $order->save();
             }
             Yii::$app->session->setFlash('success', 'Ваш заказ успешно отправлен в обработку! Наш сотрудник свяжется с вами в скором времени!');
+            return true;
+        }
+    }
+    
+    public function Order_AjaxPizza(&$model, &$items)
+    {
+        $model = new OrderForm();
+        $items = $this->pirep->getMapPizza();
+        if(Yii::$app->request->isAjax)
+        {
             return true;
         }
     }

@@ -10,9 +10,6 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
-/**
- * PizzaController implements the CRUD actions for Pizza model.
- */
 class PizzaController extends Controller
 {
     private $Pizza_Service;

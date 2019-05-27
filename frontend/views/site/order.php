@@ -25,8 +25,6 @@ $form->field($model, 'id_pizza')->label('Ассортимент пицц:')->wid
 ]);
 ?>
 
-
-
 <div class="form-group">
     <?= Html::submitButton('Оформить заказ', ['class' => 'btn btn-success']) ?>
     <?= yii\helpers\Html::a('Я сам соберу себе пиццу! &raquo', ['site/create'], ['class'=>'btn btn-primary']) ?>
