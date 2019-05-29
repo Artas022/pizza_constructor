@@ -1,34 +1,34 @@
 <?php
-$this->title = 'Страница заказа';
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
-use kartik\select2\Select2;
+$this->title = 'Страница заказа';
+$this->registerJsFile('@web/js/orderform.js');
 ?>
-
+<?= Html::csrfMetaTags() ?>
 <h1>Страница оформления заказа</h1>
 <p class="lead">Пожалуйста, заполните форму ниже:</p>
-<div id="form">
-
-    <div class="fields">
+<div id="block-order">
+    <form method="post" id="form-ajax" action="">
         <label for="phonenumber">Ваш мобильный номер</label>
-        <input type="number" class="form-control" id="phonenumber" placeholder="111222333">
-
+        <input type="number" class="form-control" id="phonenumber" placeholder="...">
+        <label for="pizza">Выбор пицц</label>
         <div id="pizza-select">
-            <label for="pizza">Выбор пицц</label>
-            <select class="form-control" id="pizza">
+            <select class="form-control pizza_field">
                 <?php
                 foreach ($items as $item)
                     echo '<option>'. $item . '</option>';
                 ?>
             </select>
         </div>
-    </div>
+    </form>
 </div>
-
-
-
 <br>
+<?= Html::Button('Добавить поле пиццы <+>', ['class' => 'btn btn-primary', 'id' => 'add_field']) ?>
+<?= Html::Button('Убрать поле пиццы <->', ['class' => 'btn btn-danger', 'id' => 'delete_field']) ?>
+    <br>  <br>
+
 <div class="form-group">
-    <?= Html::submitButton('Оформить заказ', ['class' => 'btn btn-success']) ?>
+    <?= Html::submitButton('Оформить заказ ', ['class' => 'btn btn-success', 'form' => 'form-ajax']) ?>
     <?= yii\helpers\Html::a('Я сам соберу себе пиццу! &raquo', ['site/create'], ['class'=>'btn btn-primary']) ?>
 </div>
+
+

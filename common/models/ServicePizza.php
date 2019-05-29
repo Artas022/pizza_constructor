@@ -82,15 +82,22 @@ class ServicePizza
             return true;
         }
     }
-    
-    public function Order_AjaxPizza(&$model, &$items)
+
+    public function Order_AjaxPizza($data)
     {
-        $model = new OrderForm();
-        $items = $this->pirep->getMapPizza();
-        if(Yii::$app->request->isAjax)
-        {
+            for($i = 0; $i < count($data['pizza']); $i++)
+            {
+                $order = new Order();
+                // находим id пиццы
+                $id_pizza = $this->pirep->getIdPizzabyTitle($data['pizza'][$i]);
+                // записываем данные в заказ
+                $order->phonenumber = $data['phonenumber'];
+                $order->id_pizza = $id_pizza['id_pizza'];
+                $order->payment = $id_pizza['price'];
+                $order->status = 0;
+                $order->save();
+            }
             return true;
-        }
     }
     // Кастомная пицца
     public function Order_CustomPizza($POST, &$model)
