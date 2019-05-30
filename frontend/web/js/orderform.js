@@ -13,18 +13,15 @@ $(document).ready(function () {
             if($('.pizza_field').length > 1) {
                 $('.pizza_field').filter(':last').remove();
             }
-            else {
-                alert('Невозможно удалить единственное поле!');
-            }
         });
 
         // валидация поля и отправка AJAX
         $('form').on('submit', function () {
 
             // проверка номера на валидность
-            if($('#phonenumber').val().length < 5)
+            if($('#phonenumber').val().length < 11)
             {
-                alert('Номер телефона введён некорректно! Не менее 5-ти цифр!');
+                alert('Номер телефона введён некорректно! Не менее 11-ти цифр!');
                 $('#phonenumber').val('');
                 return false;
             }
