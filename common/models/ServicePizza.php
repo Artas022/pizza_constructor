@@ -85,16 +85,18 @@ class ServicePizza
 
     public function Order_AjaxPizza($data)
     {
+        // проход по всем позициям выбора пользователя
             for($i = 0; $i < count($data['pizza']); $i++)
             {
                 $order = new Order();
                 // находим id пиццы
                 $id_pizza = $this->pirep->getIdPizzabyTitle($data['pizza'][$i]);
-                // записываем данные в заказ
+                // записываем данные в заказ (телефон, id пиццы, стоимость)
                 $order->phonenumber = $data['phonenumber'];
                 $order->id_pizza = $id_pizza['id_pizza'];
                 $order->payment = $id_pizza['price'];
                 $order->status = 0;
+                // сохраняем модель
                 $order->save();
             }
             return true;
