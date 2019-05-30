@@ -19,9 +19,9 @@ $(document).ready(function () {
         $('form').on('submit', function () {
 
             // проверка номера на валидность
-            if($('#phonenumber').val().length < 11)
+            if($('#phonenumber').val().length < 8)
             {
-                alert('Номер телефона введён некорректно! Не менее 11-ти цифр!');
+                alert('Номер телефона введён некорректно! Не менее 8-ми цифр!');
                 $('#phonenumber').val('');
                 return false;
             }
@@ -50,7 +50,7 @@ $(document).ready(function () {
                     // очищаем вызванные ранее поля
                     while ($('.pizza_field').length != 1)
                         $('.pizza_field').filter(':last').remove();
-                    $('.pizza_field').val(1);
+                    $('.pizza_field').prop('selectedIndex',0);
                     // сообщение об успехе
                     alert('Ваш заказ принят! Наш менеджер свяжется с вами для уточнения заказа!');
                 }
