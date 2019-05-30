@@ -25,9 +25,10 @@ $(document).ready(function () {
             if($('#phonenumber').val().length < 5)
             {
                 alert('Номер телефона введён некорректно! Не менее 5-ти цифр!');
-                $('#phonenumber').val().empty();
+                $('#phonenumber').val('');
                 return false;
             }
+
             // если проверка успешна - попытка отправки AJAX запроса
 
             // получаем все значения из полей пицц
@@ -47,10 +48,16 @@ $(document).ready(function () {
                 },
                 url: 'ajaxorder',
                 success: function () {
-                    alert('Ваш заказ принят! Ожидайте, наши менеджеры свяжутся с вами!');
+                    // чистим поля
+                    $('#phonenumber').val('');
+                    // очищаем вызванные ранее поля
+                    while ($('.pizza_field').length != 1)
+                        $('.pizza_field').filter(':last').remove();
+                    $('.pizza_field').val(1);
+                    // сообщение об успехе
+                    alert('Ваш заказ принят! Наш менеджер свяжется с вами для уточнения заказа!');
                 }
             });
             return false; // убираем перезагрузку страницы
         });
-
     });
