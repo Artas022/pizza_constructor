@@ -30,8 +30,16 @@ class CreatePizzaForm extends Model
     {
         return [
             [['base','phonenumber','id_ingridient'],'required'],
-            ['phonenumber', 'string', 'max' => 20],
-            ['base', 'integer'],
+            ['phonenumber', 'is8NumbersOnly'],
+            ['base', 'integer', 'message' => 'Должно быть целочисленным значением!'],
         ];
     }
+
+    public function is8NumbersOnly($attribute)
+    {
+        if (!preg_match('/^[0-9]{8}$/', $this->$attribute)) {
+            $this->addError($attribute, 'Должен состоять из цифр, не менее 8-ми');
+        }
+    }
+
 }
