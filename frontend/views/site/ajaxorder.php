@@ -11,21 +11,21 @@ $this->registerJsFile('@web/js/orderform.js');
         <label for="phonenumber">Ваш мобильный номер</label>
         <input type="number" class="form-control" id="phonenumber" placeholder="...">
         <label for="pizza">Выбор пицц</label>
+        <p class="lead">Для добавления ещё одной пиццы, используйте кнопку '+', для удаления - '-'</p>
+        <p><?= Html::Button('+', ['class' => 'btn btn-primary', 'id' => 'add_field']) ?>
+            <?= Html::Button('-', ['class' => 'btn btn-danger', 'id' => 'delete_field']) ?>
+        </p>
         <div id="pizza-select">
             <select class="form-control pizza_field">
                 <?php
                 foreach ($items as $item)
-                    echo '<option>'. $item . '</option>';
+                    echo '<option value="1">'. $item . '</option>';
                 ?>
             </select>
         </div>
     </form>
 </div>
 <br>
-<?= Html::Button('Добавить поле пиццы <+>', ['class' => 'btn btn-primary', 'id' => 'add_field']) ?>
-<?= Html::Button('Убрать поле пиццы <->', ['class' => 'btn btn-danger', 'id' => 'delete_field']) ?>
-    <br>  <br>
-
 <div class="form-group">
     <?= Html::submitButton('Оформить заказ ', ['class' => 'btn btn-success', 'form' => 'form-ajax']) ?>
     <?= yii\helpers\Html::a('Я сам соберу себе пиццу! &raquo', ['site/create'], ['class'=>'btn btn-primary']) ?>
