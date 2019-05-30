@@ -21,6 +21,8 @@ class m190514_133247_create_orders_table extends Migration
             'id_pizza' => $this->integer()->notNull(),
             // к оплате
             'payment' => $this->integer()->notNull(),
+            // рецептура кастомной пиццы
+            'custom_pizza' => $this->json(),
             // статус выполнения заказа:
             // 0 - не выполнен, 1 - выполнен
             'status' => $this->boolean(),
