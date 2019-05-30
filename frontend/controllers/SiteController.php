@@ -103,6 +103,14 @@ class SiteController extends Controller
         ]);
     }
 
+    public function actionAjaxcreate()
+    {
+
+        return $this->render('ajaxcreate',[
+            'items' => $this->Repo->getMapIngridients()
+        ]);
+    }
+
 }
 
 
