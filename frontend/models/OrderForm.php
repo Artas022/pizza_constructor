@@ -27,11 +27,16 @@ class OrderForm extends Model
     public function rules()
     {
         return [
-            [['phonenumber', 'id_pizza'], 'required'],
-            [['phonenumber'], 'string', 'max' => 20],
+            [['phonenumber', 'id_pizza'], 'required', 'message' => 'Не может быть пустым!'],
+            [['phonenumber'], 'is8NumbersOnly'],
         ];
     }
-        
-    
+
+    public function is8NumbersOnly($attribute)
+    {
+        if (!preg_match('/^[0-9]{8}$/', $this->$attribute)) {
+            $this->addError($attribute, 'Должен состоять из цифр, не менее 8-ми');
+        }
+    }
     
 }
