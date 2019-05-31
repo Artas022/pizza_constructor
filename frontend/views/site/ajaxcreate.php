@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p class="lead">Пожалуйста, введите ваши данные:</p>
     <div class="container">
         <div class="row">
-                <form>
+                <form id="form-constructor">
                     <!-- Номер телефона -->
                     <div class="form-group" id="phonenumber_div">
                         <label for="phonenumber">Ваш номер телефона</label>
@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="col-lg-6">
                                 <div class="form-group select-ingridient">
                                     <label>Рецептура пиццы</label>
-                                    <select  class="form-control ingridient_select">
+                                    <select class="form-control select-field">
                                         <?php
                                         foreach ($items as $ingridient)
                                             echo '<option>'. $ingridient . '</option>';
@@ -47,8 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::submitButton('Отправить', ['class' => 'submit btn btn-success']) ?>
         <?= Html::Button('+', ['class' => 'submit btn btn-primary', 'id' => 'add_field']) ?>
         <?= Html::Button('-', ['class' => 'submit btn btn-danger', 'id' => 'delete_field']) ?>
-                </form>
 
-
+        </form>
     </div>
 </div>

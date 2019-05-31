@@ -15,6 +15,7 @@ class ServicePizza
         $this->pirep = $PizzaRepository;
     }
 
+    // создание пиццы (админ)
     public function create($POST, &$model, &$ingridients)
     {
         $model = new Pizza();
@@ -46,7 +47,7 @@ class ServicePizza
             return true;
         }
     }
-
+    // удаление пиццы
     public function delete($id)
     {
         $ingridients = new PizzaIngridient();
@@ -56,13 +57,15 @@ class ServicePizza
         // удаляем пиццу из таблицы пицц
         $model->delete();
     }
-    
+    // обновление пиццы
     public function update($POST,$id, &$model, &$ingridients)
     {
         $ingridients = new PizzaIngridient();
         $model = Pizza::findOne($id);
         if ($model->load($POST) && $model->save())
             return true;
+        else
+            return false;
     }
     // заказ обычной пиццы
     public function Order_Pizza($POST, &$model)
@@ -82,7 +85,7 @@ class ServicePizza
             return true;
         }
     }
-
+    // заказ обычной пиццы (AJAX)
     public function Order_AjaxPizza($data)
     {
         // проход по всем позициям выбора пользователя
@@ -106,7 +109,6 @@ class ServicePizza
     {
         // загрузка моделей и валидация
         $model = new CreatePizzaForm();
-
         if ($model->load($POST) && $model->validate())
         {
             // ассоциативный массив для записи рецептуры в JSON
@@ -141,5 +143,41 @@ class ServicePizza
                 Yii::$app->session->setFlash('success', 'Ваш особый заказ принят! Наш сотрудник свяжется с вами в скором времени!');
             return true;
         }
+        else
+            return false;
+    }
+    // Кастомная пицца (AJAX)
+    public function Order_AjaxCustomPizza($data)
+    {
+        // ассоциативный массив для записи рецептуры в JSON
+        $custom_pizza = [
+            'ingridient_name' => [],
+            'portion' => [],
+            'base' => 0,
+        ];
+        // модель заказа
+        $order = new Order();
+        // Добавляем из модели формы информацию:
+        // основание, телефон
+        $order->phonenumber = $data['phonenumber'];
+        $custom_pizza['base'] = $data['base'];
+        // перечень ингредиентов
+
+        for ($i = 0; $i < count($data['portion']); $i++)
+        {
+            // ищем по имени ингредиента его стоимость
+            $price_ingridient = $this->pirep->getIngridientPrice($data['ingridient'][$i]);
+            
+            // Добавляем порции и название ингредиентов
+            array_push($custom_pizza['portion'], $data['portion'][$i]);
+            array_push($custom_pizza['ingridient_name'], $data['ingridient'][$i]);
+            // считаем стоимость заказа
+            $order->payment += ($price_ingridient['price'] / 100) * $data['portion'][$i];
+        }
+        $order->payment = round($order->payment);
+        // зашифровать в JSON формат и сохранить в поле заказа
+        $order->custom_pizza = json_encode($custom_pizza);
+        $order->status = 0;
+        $order->save();
     }
 }

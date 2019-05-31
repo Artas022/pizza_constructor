@@ -28,6 +28,11 @@ class PizzaRepository
         return ArrayHelper::map(Ingridient::find()->all(), 'id_ingridient', 'name');
     }
 
+    public function getIngridientPrice($name)
+    {
+        return Ingridient::find()->select('price')->where(['name' => $name])->one();
+    }
+    
     public function getPizzaIngridients($id)
     {
         return PizzaIngridient::find()->joinWith(['pizza','ingridient'])->asArray()->where(['pizza_id' => $id])->all();;

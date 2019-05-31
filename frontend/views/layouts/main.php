@@ -38,6 +38,7 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => 'Главная', 'url' => ['/site/index']],
         ['label' => 'Сделать заказ (AJAX)', 'url' => ['/site/ajaxorder']],
+        ['label' => 'Конструктор пицц (AJAX)', 'url' => ['/site/ajaxcreate']],
     ];
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],

@@ -10,7 +10,7 @@ use kartik\select2\Select2;
 
 <?php $form = ActiveForm::begin(); ?>
 
-<?= $form->field($model, 'phonenumber')->textInput(['maxlength' => true]) ?>
+<?= $form->field($model, 'phonenumber')->textInput(['type' => 'number','maxlength' => true]) ?>
 
 <// Меню с множественным выбором пицц через Select2 >
 

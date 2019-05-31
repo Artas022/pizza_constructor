@@ -19,9 +19,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-lg-5">
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
-            <?= $form->field($model, 'phonenumber')->textInput(['autofocus' => true]) ?>
+            <?= $form->field($model, 'phonenumber')->textInput([ 'type' => 'number','autofocus' => true]) ?>
 
-            <?= $form->field($model, 'base')->textInput() ?>
+            <?= $form->field($model, 'base')->textInput(['type' => 'number']) ?>
 
             <// Полоса ингредиентов через MultipleInput >
 
@@ -40,6 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'title' => 'Порция',
                     'enableError' => true,
                     'options' => [
+                        'type' => 'number',
                         'class' => 'input-priority',
                     ]
                 ]
