@@ -146,6 +146,50 @@ class ServicePizza
         else
             return false;
     }
+
+    public function validate_ajax($data)
+    {
+        // ассоциативный массив со статусом проверок
+        $status = [
+            'phonenumber' => false,
+            'base' => false,
+            'ingridients' => false,
+            'portions' => false,
+        ];
+        // проверка номера телефона
+        // если состоит только из цифр и длинной > 8
+        if((ctype_digit($data['phonenumber'])) && ( strlen((string)$data['phonenumber'] >= 8)))
+            $status['phonenumber'] = true;
+        // проверка основания
+        // если основание > 10 см
+        if($data['base'] >= 10)
+            $status['base'] = true;
+        // проверка ингредиентов и их порций
+        // если кол-во полей равное друг другу
+        if(count($data['ingridient']) == count($data['portion']))
+        {
+            $flag = false;
+            // проходим по всем полям и проверяем их на валидность
+            // существование ингредиента по названию, корректность поля с порциями для него
+            // при хотя бы одном несовпадении - выход из цикла
+            for($i = 0; $i < count($data['ingridient']); $i++)
+            {
+                if($this->pirep->isIngridientExistbyName($data['ingridient'][0]))
+                {
+                    $flag = true;
+                    break;
+                }
+                // смотрим имя
+                
+                
+            }
+            if($flag)
+        }
+
+        // true - направить JSON ответ обратно и передать выполнение в функцию для записи в БД
+        // false - направить JSON ответ с номерами/названиями ошибок
+    }
+
     // Кастомная пицца (AJAX)
     public function Order_AjaxCustomPizza($data)
     {

@@ -74,6 +74,7 @@ class SiteController extends Controller
         );
     }
 
+    // основная страница
     public function actionIndex()
     {
         return $this->render('index',[
@@ -93,6 +94,7 @@ class SiteController extends Controller
         ]);
     }
 
+    // заказ готовых пицц (AJAX)
     public function actionAjaxorder()
     {
         if(Yii::$app->request->isAjax)
@@ -103,6 +105,7 @@ class SiteController extends Controller
         ]);
     }
 
+    // конструктор пицц и их заказ (AJAX)
     public function actionAjaxcreate()
     {
         if(Yii::$app->request->isAjax)
