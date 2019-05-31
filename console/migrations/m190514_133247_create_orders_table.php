@@ -18,9 +18,9 @@ class m190514_133247_create_orders_table extends Migration
             // номер телефона
             'phonenumber' => $this->string(20)->notNull(),
             // номер пиццы, которую заказал клиент
-            'id_pizza' => $this->integer()->notNull(),
+            'id_pizza' => $this->integer(),
             // к оплате
-            'payment' => $this->integer()->notNull(),
+            'payment' => $this->integer(),
             // рецептура кастомной пиццы
             'custom_pizza' => $this->json(),
             // статус выполнения заказа:
