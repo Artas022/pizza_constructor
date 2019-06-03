@@ -5,6 +5,7 @@ namespace common\models;
 use frontend\models\CreatePizzaForm;
 use frontend\models\OrderForm;
 use Yii;
+use yii\web\Response;
 
 class ServicePizza
 {
@@ -147,47 +148,58 @@ class ServicePizza
             return false;
     }
 
+    // валидация данных с AJAX формы на сервере
     public function validate_ajax($data)
     {
-        // ассоциативный массив со статусом проверок
-        $status = [
-            'phonenumber' => false,
-            'base' => false,
-            'ingridients' => false,
-            'portions' => false,
-        ];
+        $flag = true; // флаг состояний ошибок
+        // ассоциативный массив со статусом проверок полей
         // проверка номера телефона
         // если состоит только из цифр и длинной > 8
-        if((ctype_digit($data['phonenumber'])) && ( strlen((string)$data['phonenumber'] >= 8)))
-            $status['phonenumber'] = true;
+        if((!ctype_digit($data['phonenumber'])) && (strlen((string)$data['phonenumber'] < 8 )))
+        {
+            $flag = false;
+            $status['phonenumber'] = 'Моб. номер введён некорректно! Должен состоять из цифр, не менее 8-ми!';
+        }
         // проверка основания
-        // если основание > 10 см
-        if($data['base'] >= 10)
-            $status['base'] = true;
+        // если основание - число и значение >= 10 см
+        if( (!ctype_digit($data['base'])) && ($data['base'] < 10))
+        {
+            $flag = false;
+            $status['base'] = 'Основание должно быть целочисленным, не меньше 10см!';
+        }
         // проверка ингредиентов и их порций
         // если кол-во полей равное друг другу
         if(count($data['ingridient']) == count($data['portion']))
         {
-            $flag = false;
             // проходим по всем полям и проверяем их на валидность
-            // существование ингредиента по названию, корректность поля с порциями для него
+            // (существование ингредиента по названию, корректность поля с порциями для него)
             // при хотя бы одном несовпадении - выход из цикла
             for($i = 0; $i < count($data['ingridient']); $i++)
             {
-                if($this->pirep->isIngridientExistbyName($data['ingridient'][0]))
-                {
-                    $flag = true;
-                    break;
-                }
                 // смотрим имя
-                
-                
-            }
-            if($flag)
+                if(!$this->pirep->isIngridientExistbyName($data['ingridient'][$i]))
+                {
+                    // если ингредиента не существует
+                    $flag = false;
+                    $status['ingridient'] = 'Ингредиент не найден в БД!';
+                }
+                // проверяем правильность порций
+                if((!ctype_digit($data['portion'][$i])) || ($data['portion'][$i] <= 0))
+                {
+                    // если в порциях есть символы не-цифры или значение <= 0 - изменение флага и выход
+                    $flag = false;
+                    $status['portion'] = 'Порции должны быть целочисленными и быть больше нуля!';
+                }
+                if(!$flag)
+                    break;
+            } // конец цикла
         }
-
-        // true - направить JSON ответ обратно и передать выполнение в функцию для записи в БД
-        // false - направить JSON ответ с номерами/названиями ошибок
+        // true -  передать выполнение в функцию для записи в БД
+        // false - направить JSON ответ с указаниями ошибок
+        if(!$flag)
+            Yii::$app->end(json_encode($status));
+        else
+            Yii::$app->end($this->Order_AjaxCustomPizza($_POST));
     }
 
     // Кастомная пицца (AJAX)
@@ -223,5 +235,6 @@ class ServicePizza
         $order->custom_pizza = json_encode($custom_pizza);
         $order->status = 0;
         $order->save();
+        return true;
     }
 }

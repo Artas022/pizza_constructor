@@ -43,6 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
                         </div>
                     </div>
+                    <div id="answer"></div>
         </div>
         <?= Html::submitButton('Отправить', ['class' => 'submit btn btn-success']) ?>
         <?= Html::Button('+', ['class' => 'submit btn btn-primary', 'id' => 'add_field']) ?>

@@ -109,7 +109,7 @@ class SiteController extends Controller
     public function actionAjaxcreate()
     {
         if(Yii::$app->request->isAjax)
-            $this->Service_Pizza->Order_AjaxCustomPizza($_POST);
+            $this->Service_Pizza->validate_ajax($_POST);
         
         return $this->render('ajaxcreate',[
             'items' => $this->Repo->getMapIngridients()

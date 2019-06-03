@@ -49,6 +49,15 @@ class PizzaRepository
         return ArrayHelper::map(Pizza::find()->all(),'id_pizza','title');
     }
 
+    // проверка ингредиента на наличие по имени
+    public function isIngridientExistbyName($name)
+    {
+        if(Ingridient::find()->where(['name' => $name])->exists())
+            return true;
+        else
+            return false;
+    }
+
     // перечень всех готовых пицц
     public function getAllPizza()
     {

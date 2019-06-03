@@ -87,8 +87,8 @@ $(document).ready(function () {
 
             $.ajax({
                 type: 'POST',
-                cache: false,
-                dataType: "html",
+                dataType: "text",
+                url: 'ajaxcreate',
                 data: {
                     // номер телефона
                     phonenumber: $('#phonenumber').val(),
@@ -99,13 +99,20 @@ $(document).ready(function () {
                     // кол-во порций
                     portion: portions
                 },
-                url: 'ajaxcreate',
-                success: function () {
-                    alert('Ваш заказ принят! Наш менеджер свяжется с вами для уточнения заказа!');
+                success: function (data) {
+                    if(data == true)
+                        $('#answer').append('Заказ был принят!').html();
+                    else
+                    {
+                        var answer = $.parseJSON(data);
+                        $('#answer').empty();
+                        for(var key in answer)
+                            $('#answer').append( '<p class="lead">' + answer[key] + '</p>' + '<br>');
+                    }
                     clear_view();
                 }
             });
-        }
+      }
         else
         {
             alert('Порции не были заданы правильным образом!');
