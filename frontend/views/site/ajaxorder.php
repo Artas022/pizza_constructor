@@ -18,8 +18,8 @@ $this->registerJsFile('@web/js/orderform.js');
         <div id="pizza-select">
             <select class="form-control pizza_field">
                 <?php
-                foreach ($items as $item)
-                    echo '<option>'. $item . '</option>';
+                foreach ($items as $pizza)
+                    echo '<option value="' . $pizza['id_pizza'] . '">'. $pizza['title'] . '</option>';
                 ?>
             </select>
         </div>

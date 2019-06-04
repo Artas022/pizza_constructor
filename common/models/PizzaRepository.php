@@ -28,6 +28,14 @@ class PizzaRepository
         return ArrayHelper::map(Ingridient::find()->all(), 'id_ingridient', 'name');
     }
 
+    public function isPizzaExist($id)
+    {
+       if(Pizza::find()->where(['id_pizza' => $id])->exists())
+           return true;
+        else
+            return false;
+    }
+    
     public function getIngridientPrice($name)
     {
         return Ingridient::find()->select('price')->where(['name' => $name])->one();
@@ -46,7 +54,7 @@ class PizzaRepository
     // список всех пицц для заказа
     public function getMapPizza()
     {
-        return ArrayHelper::map(Pizza::find()->all(),'id_pizza','title');
+        return ArrayHelper::map(Pizza::find()->select('')->all(),'id_pizza','title');
     }
 
     // проверка ингредиента на наличие по имени
@@ -57,7 +65,18 @@ class PizzaRepository
         else
             return false;
     }
-
+        
+    // перечень всех пицц (ID, title)
+    public function getAllPizzaIdTitle()
+    {
+        return Pizza::find()->select(['id_pizza','title'])->all();
+    }
+    
+    public function getPizzaById($id)
+    {
+        return Pizza::find()->where(['id_pizza' => $id])->one();
+    }
+    
     // перечень всех готовых пицц
     public function getAllPizza()
     {

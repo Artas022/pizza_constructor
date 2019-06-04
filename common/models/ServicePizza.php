@@ -87,16 +87,16 @@ class ServicePizza
         }
     }
     // заказ обычной пиццы (AJAX)
-    public function Order_AjaxPizza($data)
+    public function Order_AjaxPizza($pizza_list, $phonenumber)
     {
         // проход по всем позициям выбора пользователя
-            for($i = 0; $i < count($data['pizza']); $i++)
+            foreach ($pizza_list as $item)
             {
                 $order = new Order();
                 // находим id пиццы
-                $id_pizza = $this->pirep->getIdPizzabyTitle($data['pizza'][$i]);
+                $id_pizza = $this->pirep->getPizzaById($item);
                 // записываем данные в заказ (телефон, id пиццы, стоимость)
-                $order->phonenumber = $data['phonenumber'];
+                $order->phonenumber = $phonenumber;
                 $order->id_pizza = $id_pizza['id_pizza'];
                 $order->payment = $id_pizza['price'];
                 $order->status = 0;
@@ -147,8 +147,7 @@ class ServicePizza
         else
             return false;
     }
-
-    // валидация данных с AJAX формы на сервере
+    // валидация данных с AJAX конструктора пицц
     public function validate_ajax($data)
     {
         $flag = true; // флаг состояний ошибок
@@ -201,7 +200,35 @@ class ServicePizza
         else
             Yii::$app->end($this->Order_AjaxCustomPizza($_POST));
     }
+    // валидация данных AJAX готовых пицц
+    public function validate_order($data)
+    {
+        $pizza_list = [];
+        $status = NULL;
+        // проверяем номер телефона
+        // состоит из цифр и >=8
+        if((!ctype_digit($data['phonenumber'])) || (strlen($data['phonenumber']) < 8 ))
+            $status['phonenumber'] = 'Номер должен состоять из цифр, не менее 8-ми!';
 
+        // проверка всех пицц
+        // существуют ли данные пиццы в БД
+        // при хотя бы одном несовпадении - ошибка
+        foreach ($data['pizza'] as $item)
+        {
+            if(!$this->pirep->isPizzaExist($item))
+            {
+                $status['pizza'] = 'Была выбрана несуществующая пицца!';
+                break;
+            }
+            else
+                array_push($pizza_list, $item);
+        }
+        // если есть ошибки - отправить обратно
+        if(!isset($status))
+            Yii::$app->end($this->Order_AjaxPizza($pizza_list, $data['phonenumber']));
+        else
+            Yii::$app->end(json_encode($status));
+    }
     // Кастомная пицца (AJAX)
     public function Order_AjaxCustomPizza($data)
     {

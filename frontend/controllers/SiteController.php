@@ -98,10 +98,10 @@ class SiteController extends Controller
     public function actionAjaxorder()
     {
         if(Yii::$app->request->isAjax)
-            $this->Service_Pizza->Order_AjaxPizza($_POST);
-
+            $this->Service_Pizza->validate_order($_POST);
+        
         return $this->render('ajaxorder',[
-            'items' => $this->Repo->getMapPizza()
+            'items' => $this->Repo->getAllPizzaIdTitle()
         ]);
     }
 
