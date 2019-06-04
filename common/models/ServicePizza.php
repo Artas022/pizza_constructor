@@ -68,9 +68,8 @@ class ServicePizza
             return false;
     }
     // заказ обычной пиццы
-    public function Order_Pizza($POST, &$model)
+    public function Order_Pizza($POST, OrderForm &$model)
     {
-        $model = new OrderForm();
         if ($model->load($POST) && $model->validate()) {
             foreach ($model['id_pizza'] as $item) {
                 $order = new Order();
@@ -105,10 +104,8 @@ class ServicePizza
             return true;
     }
     // Кастомная пицца
-    public function Order_CustomPizza($POST, &$model)
+    public function Order_CustomPizza($POST, CreatePizzaForm &$model)
     {
-        // загрузка моделей и валидация
-        $model = new CreatePizzaForm();
         if ($model->load($POST) && $model->validate())
         {
             // ассоциативный массив для записи рецептуры в JSON

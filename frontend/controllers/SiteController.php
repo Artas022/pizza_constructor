@@ -1,6 +1,9 @@
 <?php
 namespace frontend\controllers;
+use common\models\Pizza;
 use common\models\ServicePizza;
+use frontend\models\CreatePizzaForm;
+use frontend\models\OrderForm;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -64,6 +67,8 @@ class SiteController extends Controller
     // конструктор пицц и их заказ
     public function actionCreate()
     {
+        // загрузка моделей и валидация
+        $model = new CreatePizzaForm();
         if($this->Service_Pizza->Order_CustomPizza(Yii::$app->request->post(), $model))
             return $this->goHome();
 
@@ -85,6 +90,7 @@ class SiteController extends Controller
     // заказ готовых пицц
     public function actionOrder()
     {
+        $model = new OrderForm();
         if($this->Service_Pizza->Order_Pizza(Yii::$app->request->post(), $model) )
             return $this->goHome();
 
