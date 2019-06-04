@@ -27,7 +27,7 @@ class PizzaRepository
     {
         return ArrayHelper::map(Ingridient::find()->all(), 'id_ingridient', 'name');
     }
-
+    // Существует ли пицца по ID
     public function isPizzaExist($id)
     {
        if(Pizza::find()->where(['id_pizza' => $id])->exists())
@@ -35,54 +35,55 @@ class PizzaRepository
         else
             return false;
     }
-    
-    public function getIngridientPrice($name)
+    // Нахождение цены пиццы по имени
+    public function getIngridientPriceName($id)
     {
-        return Ingridient::find()->select('price')->where(['name' => $name])->one();
+        return Ingridient::find()->select(['price','name'])->where(['id_ingridient' => $id])->one();
     }
-    
+    // Нахождение ингредиентов пиццы
     public function getPizzaIngridients($id)
     {
         return PizzaIngridient::find()->joinWith(['pizza','ingridient'])->asArray()->where(['pizza_id' => $id])->all();;
     }
-
+    // Нахождение ID и стоимости пиццы по названию
     public function getIdPizzabyTitle($title)
     {
         return Pizza::find()->select(['id_pizza', 'price'])->where(['title' => $title])->one();
     }
-
+    // нахождение ID и имени всех ингредиентов
+    public function getAllIngridients()
+    {
+        return Ingridient::find()->select(['id_ingridient','name'])->all();
+    }
     // список всех пицц для заказа
     public function getMapPizza()
     {
         return ArrayHelper::map(Pizza::find()->select('')->all(),'id_pizza','title');
     }
-
     // проверка ингредиента на наличие по имени
-    public function isIngridientExistbyName($name)
+    public function isIngridientExist($id)
     {
-        if(Ingridient::find()->where(['name' => $name])->exists())
+        if(Ingridient::find()->where(['id_ingridient' => $id])->exists())
             return true;
         else
             return false;
     }
-        
     // перечень всех пицц (ID, title)
     public function getAllPizzaIdTitle()
     {
         return Pizza::find()->select(['id_pizza','title'])->all();
     }
-    
+    // Получение пиццы по ID
     public function getPizzaById($id)
     {
         return Pizza::find()->where(['id_pizza' => $id])->one();
     }
-    
     // перечень всех готовых пицц
     public function getAllPizza()
     {
         return Pizza::find()->all();
     }
-
+    // выводд модели пиццы
     public function view($id)
     {
         return Pizza::findOne($id);

@@ -15,7 +15,6 @@ class ServicePizza
     {
         $this->pirep = $PizzaRepository;
     }
-
     // создание пиццы (админ)
     public function create($POST, &$model, &$ingridients)
     {
@@ -150,22 +149,14 @@ class ServicePizza
     // валидация данных с AJAX конструктора пицц
     public function validate_ajax($data)
     {
-        $flag = true; // флаг состояний ошибок
-        // ассоциативный массив со статусом проверок полей
         // проверка номера телефона
         // если состоит только из цифр и длинной > 8
         if((!ctype_digit($data['phonenumber'])) && (strlen((string)$data['phonenumber'] < 8 )))
-        {
-            $flag = false;
             $status['phonenumber'] = 'Моб. номер введён некорректно! Должен состоять из цифр, не менее 8-ми!';
-        }
         // проверка основания
         // если основание - число и значение >= 10 см
         if( (!ctype_digit($data['base'])) && ($data['base'] < 10))
-        {
-            $flag = false;
             $status['base'] = 'Основание должно быть целочисленным, не меньше 10см!';
-        }
         // проверка ингредиентов и их порций
         // если кол-во полей равное друг другу
         if(count($data['ingridient']) == count($data['portion']))
@@ -176,29 +167,23 @@ class ServicePizza
             for($i = 0; $i < count($data['ingridient']); $i++)
             {
                 // смотрим имя
-                if(!$this->pirep->isIngridientExistbyName($data['ingridient'][$i]))
-                {
-                    // если ингредиента не существует
-                    $flag = false;
+                // если ингредиента не существует
+                if(!$this->pirep->isIngridientExist($data['ingridient'][$i]))
                     $status['ingridient'] = 'Ингредиент не найден в БД!';
-                }
                 // проверяем правильность порций
                 if((!ctype_digit($data['portion'][$i])) || ($data['portion'][$i] <= 0))
-                {
-                    // если в порциях есть символы не-цифры или значение <= 0 - изменение флага и выход
-                    $flag = false;
                     $status['portion'] = 'Порции должны быть целочисленными и быть больше нуля!';
-                }
-                if(!$flag)
+                // проверка наличия ошибок
+                if((isset($status['ingridient'])) || (isset($status['portion'] )))
                     break;
             } // конец цикла
         }
         // true -  передать выполнение в функцию для записи в БД
         // false - направить JSON ответ с указаниями ошибок
-        if(!$flag)
+        if(isset($status))
             Yii::$app->end(json_encode($status));
         else
-            Yii::$app->end($this->Order_AjaxCustomPizza($_POST));
+            Yii::$app->end($this->Order_AjaxCustomPizza($data));
     }
     // валидация данных AJAX готовых пицц
     public function validate_order($data)
@@ -245,17 +230,15 @@ class ServicePizza
         $order->phonenumber = $data['phonenumber'];
         $custom_pizza['base'] = $data['base'];
         // перечень ингредиентов
-
         for ($i = 0; $i < count($data['portion']); $i++)
         {
             // ищем по имени ингредиента его стоимость
-            $price_ingridient = $this->pirep->getIngridientPrice($data['ingridient'][$i]);
-            
+            $ingridient = $this->pirep->getIngridientPriceName($data['ingridient'][$i]);
             // Добавляем порции и название ингредиентов
             array_push($custom_pizza['portion'], $data['portion'][$i]);
-            array_push($custom_pizza['ingridient_name'], $data['ingridient'][$i]);
+            array_push($custom_pizza['ingridient_name'], $ingridient['name']);
             // считаем стоимость заказа
-            $order->payment += ($price_ingridient['price'] / 100) * $data['portion'][$i];
+            $order->payment += ($ingridient['price'] / 100) * $data['portion'][$i];
         }
         $order->payment = round($order->payment);
         // зашифровать в JSON формат и сохранить в поле заказа

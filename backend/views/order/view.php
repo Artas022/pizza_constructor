@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
+
 /* @var $this yii\web\View */
 /* @var $model common\models\Order */
 
@@ -37,9 +38,15 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-    <?php
-    // если пицца сделана в конструкторе - вывод рецептуры
-    \common\models\Order::ShowRecept($ingridients);
-    ?>
+    <div>
+        <p><?=$recept['title']?></p>
+        <p>
+            <?php
+            foreach ($recept['ingridient'] as $ingridient)
+                echo $ingridient;
+            ?>
+        </p>
+    </div>
+
 
 </div>

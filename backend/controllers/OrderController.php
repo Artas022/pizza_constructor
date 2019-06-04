@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\ServiceOrder;
 use Yii;
 use common\models\Order;
 use app\models\OrderSearch;
@@ -12,6 +13,15 @@ use yii\filters\AccessControl;
 
 class OrderController extends Controller
 {
+
+    private $Service;
+
+    public function __construct($id, $module, array $config=[])
+    {
+        parent::__construct($id, $module, $config);
+        $this->Service = Yii::$container->get(ServiceOrder::class);
+    }
+
     public function behaviors()
     {
         return [
@@ -55,7 +65,7 @@ class OrderController extends Controller
         $ingridients = (array) json_decode($sql['custom_pizza']);
         return $this->render('view', [
             'model' => $this->findModel($id),
-            'ingridients' => $ingridients,
+            'recept' => $this->Service->ShowRecept($ingridients),
         ]);
     }
     

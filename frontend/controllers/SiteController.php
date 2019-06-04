@@ -99,7 +99,7 @@ class SiteController extends Controller
     {
         if(Yii::$app->request->isAjax)
             $this->Service_Pizza->validate_order($_POST);
-        
+
         return $this->render('ajaxorder',[
             'items' => $this->Repo->getAllPizzaIdTitle()
         ]);
@@ -112,7 +112,7 @@ class SiteController extends Controller
             $this->Service_Pizza->validate_ajax($_POST);
         
         return $this->render('ajaxcreate',[
-            'items' => $this->Repo->getMapIngridients()
+            'items' => $this->Repo->getAllIngridients()
         ]);
     }
 

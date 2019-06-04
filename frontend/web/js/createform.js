@@ -75,10 +75,9 @@ $(document).ready(function () {
         else if(!validate_portions())
         {
             // получаем все выбранные ингредиенты
-            var ingr_select = $('.ingr-port select option:selected');
-            var ingridients = $.map(ingr_select ,function(ingr_select) {
-                return ingr_select.value;
-            });
+            var ingridients= $(".select-field option:selected").map(function() {
+                return $(this).attr('value');
+            }).get();
 
             var options = $('.portion');
             var portions = $.map(options ,function(option) {
@@ -87,7 +86,7 @@ $(document).ready(function () {
 
             $.ajax({
                 type: 'POST',
-                dataType: "text",
+                dataType: "html",
                 url: 'ajaxcreate',
                 data: {
                     // номер телефона
@@ -101,7 +100,10 @@ $(document).ready(function () {
                 },
                 success: function (data) {
                     if(data == true)
-                        $('#answer').append('Заказ был принят!').html();
+                    {
+                        $('#answer').empty();
+                        $('#answer').append('<p class="lead">Заказ был принят! </p>').html();
+                    }
                     else
                     {
                         var answer = $.parseJSON(data);

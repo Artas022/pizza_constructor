@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <select class="form-control select-field">
                                         <?php
                                         foreach ($items as $ingridient)
-                                            echo '<option>'. $ingridient . '</option>';
+                                            echo '<option value="' . $ingridient['id_ingridient'] . '"=>'. $ingridient['name'] . '</option>';
                                         ?>
                                     </select>
                                 </div>
@@ -43,12 +43,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
                         </div>
                     </div>
-                    <div id="answer"></div>
         </div>
         <?= Html::submitButton('Отправить', ['class' => 'submit btn btn-success']) ?>
         <?= Html::Button('+', ['class' => 'submit btn btn-primary', 'id' => 'add_field']) ?>
         <?= Html::Button('-', ['class' => 'submit btn btn-danger', 'id' => 'delete_field']) ?>
-
         </form>
+    </div>
+    <div id="answer">
     </div>
 </div>

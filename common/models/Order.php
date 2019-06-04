@@ -32,17 +32,4 @@ class Order extends ActiveRecord
             'status' => 'Статус выполнения',
         ];
     }
-    
-    public static function ShowRecept($ingridients)
-    {
-        if($ingridients)
-        {
-            echo '<p class="lead">' . 'Рецептура заказной пиццы c основанием ' . $ingridients['base'] . ' см:' . '</p>';
-            for($i = 0; $i < count($ingridients['ingridient_name']); $i++)
-            {
-                echo '<strong>' . 'Ингредиент: ' . $ingridients['ingridient_name'][$i] . ', порция: ' . $ingridients['portion'][$i] . '</strong>' .'<br>';
-            }
-        }
-    }
-
 }
