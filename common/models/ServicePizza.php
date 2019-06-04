@@ -9,6 +9,12 @@ use yii\web\Response;
 
 class ServicePizza
 {
+    
+    // убрать текстовые ошибки - сделать константные значения для упрощения поиска по проекту
+    // убрать Yii::app->end() <- херня, нужно возвращать JSON через Yii::Response Format
+    //      что гарантирует отсекание страницы
+    
+    
     private $pirep;
     
     public function __construct(PizzaRepository $PizzaRepository)
@@ -175,12 +181,18 @@ class ServicePizza
                     break;
             } // конец цикла
         }
-        // true -  передать выполнение в функцию для записи в БД
-        // false - направить JSON ответ с указаниями ошибок
+
+        // Успех -  передать выполнение в функцию для записи в БД
+        // Провал - направить JSON ответ с указаниями ошибок
         if(isset($status))
-            Yii::$app->end(json_encode($status));
+        {
+            $response = Yii::$app->response;
+            $response->format = Response::FORMAT_JSON;
+            $response->data = json_encode($status);
+            return $response;
+        }
         else
-            Yii::$app->end($this->Order_AjaxCustomPizza($data));
+            return $this->Order_AjaxCustomPizza($data);
     }
     // валидация данных AJAX готовых пицц
     public function validate_order($data)

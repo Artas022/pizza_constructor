@@ -101,8 +101,9 @@ $(document).ready(function () {
                 success: function (data) {
                     if(data == true)
                     {
-                        $('#answer').empty();
-                        $('#answer').append('<p class="lead">Заказ был принят! </p>').html();
+                        alert('Заказ принят!');
+                        //$('#answer').empty();
+                        //$('#answer').append('<p class="lead">Заказ был принят! </p>').html();
                     }
                     else
                     {
