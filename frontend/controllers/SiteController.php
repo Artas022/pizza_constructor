@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\PizzaRepository;
+use yii\web\Response;
 
 
 class SiteController extends Controller
@@ -104,8 +105,10 @@ class SiteController extends Controller
     public function actionAjaxorder()
     {
         if(Yii::$app->request->isAjax)
-            $this->Service_Pizza->validate_order($_POST);
-
+        {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return $this->Service_Pizza->validate_order($_POST);
+        }
         return $this->render('ajaxorder',[
             'items' => $this->Repo->getAllPizzaIdTitle()
         ]);
@@ -115,7 +118,10 @@ class SiteController extends Controller
     public function actionAjaxcreate()
     {
         if(Yii::$app->request->isAjax)
-            $this->Service_Pizza->validate_ajax($_POST);
+        {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return $this->Service_Pizza->validate_ajax($_POST);
+        }
         
         return $this->render('ajaxcreate',[
             'items' => $this->Repo->getAllIngridients()

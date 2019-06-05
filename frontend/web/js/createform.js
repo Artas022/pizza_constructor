@@ -86,7 +86,7 @@ $(document).ready(function () {
 
             $.ajax({
                 type: 'POST',
-                dataType: "html",
+                dataType: "json",
                 url: 'ajaxcreate',
                 data: {
                     // номер телефона
@@ -99,11 +99,9 @@ $(document).ready(function () {
                     portion: portions
                 },
                 success: function (data) {
-                    if(data == true)
+                    if(data === true)
                     {
-                        alert('Заказ принят!');
-                        //$('#answer').empty();
-                        //$('#answer').append('<p class="lead">Заказ был принят! </p>').html();
+                        $('#answer').append('<p class="lead">Заказ был принят! </p>').html();
                     }
                     else
                     {

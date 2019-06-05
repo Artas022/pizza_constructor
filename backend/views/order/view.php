@@ -2,13 +2,11 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
-
 /* @var $this yii\web\View */
 /* @var $model common\models\Order */
 
-$this->title = $model->id_order;
-$this->params['breadcrumbs'][] = ['label' => 'Orders', 'url' => ['index']];
+$this->title = 'Заказ №' . $model->id_order;
+$this->params['breadcrumbs'][] = ['label' => 'Заказы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -21,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Удалить заказ', ['delete', 'id' => $model->id_order], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Удалить?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -37,16 +35,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'status',
         ],
     ]) ?>
-
-    <div>
-        <p><?=$recept['title']?></p>
-        <p>
-            <?php
-            foreach ($recept['ingridient'] as $ingridient)
-                echo $ingridient;
-            ?>
-        </p>
-    </div>
+    <?php
+    if($reception)
+        echo Yii::$app->view->render('recept',compact('reception'));
+    ?>
 
 
 </div>

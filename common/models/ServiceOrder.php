@@ -2,37 +2,38 @@
 /**
  * Created by PhpStorm.
  * User: danil
- * Date: 04.06.19
- * Time: 16:04
+ * Date: 22.05.19
+ * Time: 17:02
  */
 
 namespace common\models;
 
 
+use common\models\Order;
+
 class ServiceOrder
 {
-    private $repo;
-
+    private $order;
+    
+    public $model;
+    
     public function __construct(OrderRepository $OrderRepository)
     {
-        $this->repo = $OrderRepository;
+        $this->order = $OrderRepository;
+        $this->model = new Order();
     }
-
-    public static function ShowRecept($ingridients)
+    
+    public function create($POST)
     {
-        $recept = [
-            'title' => Null,
-            'ingridient' => [],
-        ];
-        if($ingridients)
-        {
-            $recept['title'] = '<p class="lead">' . 'Рецептура заказной пиццы c основанием ' . $ingridients['base'] . ' см:' . '</p>';
-            for($i = 0; $i < count($ingridients['ingridient_name']); $i++)
-            {
-                $html = '<strong>' . 'Ингредиент: ' . $ingridients['ingridient_name'][$i] . ', порция: ' . $ingridients['portion'][$i] . '</strong>' .'<br>';
-                $recept['ingridient'][$i] = $html;
-            }
-        }
-        return $recept;
+        if ($this->model->load($POST) && $this->model->save())
+            return true;
+        else
+            return false;
+    }
+    
+    public function OrderView($id)
+    {
+        $sql = $this->order->getOrder($id);
+        return (array) json_decode($sql['custom_pizza']);
     }
 }

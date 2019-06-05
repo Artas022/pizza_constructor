@@ -26,7 +26,7 @@ $(document).ready(function () {
             $.ajax({
                 type: 'POST',
                 cache: false,
-                dataType: "html",
+                dataType: "json",
                 data: {
                     // номер телефона
                     phonenumber: $('#phonenumber').val(),
@@ -57,4 +57,5 @@ $(document).ready(function () {
             });
             return false; // убираем перезагрузку страницы
         });
+
     });

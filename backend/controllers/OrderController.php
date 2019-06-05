@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\OrderRepository;
 use common\models\ServiceOrder;
 use Yii;
 use common\models\Order;
@@ -13,19 +14,14 @@ use yii\filters\AccessControl;
 
 class OrderController extends Controller
 {
-    // Админка, улучшить:
-    // Статус заказа - должен выводить 'Выполнено' || 'В обработке'
-    // Номер пиццы - выводить название пиццы
-
-    // Рецептура должна быть НЕ В МОДЕЛЯХ И НЕ В СЕРВИСАХ
-    // рендер через отдельную страничку либо другой вариант
-
     private $Service;
+    private $Repo;
 
     public function __construct($id, $module, array $config=[])
     {
         parent::__construct($id, $module, $config);
         $this->Service = Yii::$container->get(ServiceOrder::class);
+        $this->Repo = Yii::$container->get(OrderRepository::class);
     }
 
     public function behaviors()
@@ -58,20 +54,18 @@ class OrderController extends Controller
     {
         $searchModel = new OrderSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'pizza_titles' => $this->Repo->getAllPizzaIdTitle(),
         ]);
     }
     
     public function actionView($id)
     {
-        $sql = Order::find()->select('custom_pizza')->where(['id_order' => $id])->one();
-        $ingridients = (array) json_decode($sql['custom_pizza']);
         return $this->render('view', [
             'model' => $this->findModel($id),
-            'recept' => $this->Service->ShowRecept($ingridients),
+            'reception' => $this->Repo->GetRecept($id),
         ]);
     }
     

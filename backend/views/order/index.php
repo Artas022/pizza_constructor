@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\OrderSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -22,8 +21,24 @@ $this->params['breadcrumbs'][] = $this->title;
             'id_order',
             'phonenumber',
             'payment',
-            'status',
-
+            [
+                'attribute' => 'id_pizza',
+                'value' => function($data)
+                {
+                    if($data->id_pizza == null)
+                        return 'Создана в конструкторе';
+                    else
+                    {
+                       echo array_search($data->id_pizza,$pizza_titles['id_pizza']);
+                    }
+                }
+            ],
+            [
+                'filter' => false,
+                'attribute' => 'status',
+                'value' => function($data){
+                    return $data->status ? 'Выполнен' : 'В обработке';}
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
