@@ -26,9 +26,6 @@ class ServicePizza
     // создание пиццы (админ)
     public function create($POST, &$model, &$ingridients)
     {
-        $model = new Pizza();
-        $ingridients = new PizzaIngridient();
-        // загружаем и проверяем на валидность данные модели
         if (($model->load($POST) && $ingridients->load($POST) && ($model->validate())))
         {
             foreach ($ingridients['ingridient_id'] as $item)
@@ -70,9 +67,8 @@ class ServicePizza
     }
 
     // обновление пиццы
-    public function update($POST,$id, &$model, &$ingridients)
+    public function update($POST,$id, &$model)
     {
-        $ingridients = new PizzaIngridient();
         $model = Pizza::findOne($id);
         if ($model->load($POST) && $model->save())
             return true;
@@ -138,18 +134,17 @@ class ServicePizza
                 $order->phonenumber = $model->phonenumber;
                 $custom_pizza['base'] = $model->base;
                 // перечень ингредиентов
-
                 foreach ($model['id_ingridient'] as $ingridient)
                 {
+                    $Ingr_Rep = new IngridientRepository();
                     // ищем по номеру имя ингредиента и его стоимость
-                    $name_ingridient = $this->pirep->getIngridientName($ingridient);
+                    $name_ingridient = $Ingr_Rep->getIngridientName($ingridient);
                     // Добавляем порции и название ингредиентов
                     array_push($custom_pizza['portion'], $ingridient['portions']);
                     array_push($custom_pizza['ingridient_name'], $name_ingridient['name']);
                     // считаем стоимость заказа
                     $order->payment += ($name_ingridient['price'] / 100) * $ingridient['portions'];
                 }
-                $this->pirep->getMapIngridients();
                 $order->payment = round($order->payment);
                 // зашифровать в JSON формат и сохранить в поле заказа
                 $order->custom_pizza = json_encode($custom_pizza);
@@ -179,8 +174,9 @@ class ServicePizza
         // перечень ингредиентов
         for ($i = 0; $i < count($data['portion']); $i++)
         {
+            $Repo_ingr = new IngridientRepository();
             // ищем по имени ингредиента его стоимость
-            $ingridient = $this->pirep->getIngridientPriceName($data['ingridient'][$i]);
+            $ingridient = $Repo_ingr->getIngridientPriceName($data['ingridient'][$i]);
             // Добавляем порции и название ингредиентов
             array_push($custom_pizza['portion'], $data['portion'][$i]);
             array_push($custom_pizza['ingridient_name'], $ingridient['name']);
@@ -219,7 +215,7 @@ class ServicePizza
             {
                 // смотрим имя
                 // если ингредиента не существует
-                if(!$this->pirep->isIngridientExist($data['ingridient'][$i]))
+                if(!IngridientRepository::isIngridientExist($data['ingridient'][$i]))
                     $status['ingridient'] = self::INGRIDIENT_ERROR;
                 // проверяем правильность порций
                 if((!ctype_digit($data['portion'][$i])) || ($data['portion'][$i] <= 0))

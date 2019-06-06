@@ -14,19 +14,6 @@ use yii\helpers\ArrayHelper;
 
 class PizzaRepository
 {
-    // Нахождение ингредиента по имени
-    public function getIngridientName($ingridient)
-    {
-        return Ingridient::find()
-            ->select(['price','name'])
-            ->where(['id_ingridient' => $ingridient['ingridient_id']])
-            ->one();
-    }
-    // список всех ингредиентов для конструктора
-    public function getMapIngridients()
-    {
-        return ArrayHelper::map(Ingridient::find()->all(), 'id_ingridient', 'name');
-    }
     // Существует ли пицца по ID
     public function isPizzaExist($id)
     {
@@ -35,25 +22,10 @@ class PizzaRepository
         else
             return false;
     }
-    // Нахождение цены пиццы по имени
-    public function getIngridientPriceName($id)
-    {
-        return Ingridient::find()->select(['price','name'])->where(['id_ingridient' => $id])->one();
-    }
-    // Нахождение ингредиентов пиццы
-    public function getPizzaIngridients($id)
-    {
-        return PizzaIngridient::find()->joinWith(['pizza','ingridient'])->asArray()->where(['pizza_id' => $id])->all();;
-    }
     // Нахождение ID и стоимости пиццы по названию
     public function getIdPizzabyTitle($title)
     {
         return Pizza::find()->select(['id_pizza', 'price'])->where(['title' => $title])->one();
-    }
-    // нахождение ID и перечень всех ингредиентов
-    public function getAllIngridients()
-    {
-        return Ingridient::find()->select(['id_ingridient','name'])->all();
     }
     // список всех пицц для заказа
     public static function getMapPizza()
@@ -66,18 +38,10 @@ class PizzaRepository
         $model = Pizza::find()->select('price')->where(['id_pizza' => $id])->one();
         return $model['price'];
     }
-    // получение названия всех готовых пицц и их ID 
+    // получение имён и ID всех готовых пицц
     public static function getAllNotCustomPizza()
     {
         return Pizza::find()->select(['id_pizza','title'])->where(['title'] != null)->asArray()->all();
-    }
-    // проверка ингредиента на наличие по имени
-    public function isIngridientExist($id)
-    {
-        if(Ingridient::find()->where(['id_ingridient' => $id])->exists())
-            return true;
-        else
-            return false;
     }
     // перечень всех пицц (ID, title)
     public function getAllPizzaIdTitle()

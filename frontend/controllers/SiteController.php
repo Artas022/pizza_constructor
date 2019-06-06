@@ -1,5 +1,6 @@
 <?php
 namespace frontend\controllers;
+use common\models\IngridientRepository;
 use common\models\Pizza;
 use common\models\ServicePizza;
 use frontend\models\CreatePizzaForm;
@@ -16,12 +17,14 @@ class SiteController extends Controller
 {
     private $Service_Pizza;
     private $Repo;
+    private $Repo_ingr;
 
     public function __construct($id, $module, array $config=[])
     {
         parent::__construct($id, $module, $config);
         $this->Service_Pizza = Yii::$container->get(ServicePizza::class);
         $this->Repo = Yii::$container->get(PizzaRepository::class);
+        $this->Repo_ingr = Yii::$container->get(IngridientRepository::class);
     }
 
     public function behaviors()
@@ -124,7 +127,7 @@ class SiteController extends Controller
         }
         
         return $this->render('ajaxcreate',[
-            'items' => $this->Repo->getAllIngridients()
+            'items' => $this->Repo_ingr->getAllIngridients()
         ]);
     }
 
