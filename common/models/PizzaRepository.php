@@ -50,15 +50,26 @@ class PizzaRepository
     {
         return Pizza::find()->select(['id_pizza', 'price'])->where(['title' => $title])->one();
     }
-    // нахождение ID и имени всех ингредиентов
+    // нахождение ID и перечень всех ингредиентов
     public function getAllIngridients()
     {
         return Ingridient::find()->select(['id_ingridient','name'])->all();
     }
     // список всех пицц для заказа
-    public function getMapPizza()
+    public static function getMapPizza()
     {
         return ArrayHelper::map(Pizza::find()->select('')->all(),'id_pizza','title');
+    }
+    // получение цены пиццы по ID
+    public static function getPrice($id)
+    {
+        $model = Pizza::find()->select('price')->where(['id_pizza' => $id])->one();
+        return $model['price'];
+    }
+    // получение названия всех готовых пицц и их ID 
+    public static function getAllNotCustomPizza()
+    {
+        return Pizza::find()->select(['id_pizza','title'])->where(['title'] != null)->asArray()->all();
     }
     // проверка ингредиента на наличие по имени
     public function isIngridientExist($id)
@@ -83,7 +94,7 @@ class PizzaRepository
     {
         return Pizza::find()->all();
     }
-    // выводд модели пиццы
+    // вывод модели пиццы
     public function view($id)
     {
         return Pizza::findOne($id);

@@ -14,11 +14,14 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'phonenumber')->textInput(['maxlength' => true, 'readonly' => true]) ?>
 
-    <?= $form->field($model, 'id_pizza')->textInput(['readonly' => true]) ?>
+    <?= $form->field($model, 'id_pizza')->dropDownList($pizza_list) ?>
 
     <?= $form->field($model, 'payment')->textInput(['maxlength' => true, 'readonly' => true]) ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
+    <?= $form->field($model, 'status')->dropDownList([
+        '0' => 'В обработке',
+        '1' => 'Выполнен'
+    ]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

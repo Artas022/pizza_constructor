@@ -28,9 +28,4 @@ class OrderRepository
         else
             return false;
     }
-    // Поиск всех названий пицц (???)
-    public function getAllPizzaIDTitle()
-    {
-        return Pizza::find()->select(['id_pizza','title'])->where(['title'] != null)->asArray()->all();
-    }
 }

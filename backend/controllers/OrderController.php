@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\OrderRepository;
+use common\models\PizzaRepository;
 use common\models\ServiceOrder;
 use Yii;
 use common\models\Order;
@@ -57,7 +58,7 @@ class OrderController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'pizza_titles' => $this->Repo->getAllPizzaIdTitle(),
+            'pizza_titles' => PizzaRepository::getAllNotCustomPizza(),
         ]);
     }
     
@@ -66,6 +67,7 @@ class OrderController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
             'reception' => $this->Repo->GetRecept($id),
+            'pizza_titles' => PizzaRepository::getAllNotCustomPizza(),
         ]);
     }
     
@@ -85,13 +87,15 @@ class OrderController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        
+        if ($model->load(Yii::$app->request->post())) {
+            $this->Service->ChangeOrder($model);
             return $this->redirect(['view', 'id' => $model->id_order]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'pizza_list' => PizzaRepository::getMapPizza(),
         ]);
     }
     

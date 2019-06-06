@@ -15,14 +15,13 @@ class ServiceOrder
 {
     private $order;
     
-    public $model;
+    //public $model;
     
     public function __construct(OrderRepository $OrderRepository)
     {
         $this->order = $OrderRepository;
-        $this->model = new Order();
     }
-    
+    // создание заказа
     public function create($POST)
     {
         if ($this->model->load($POST) && $this->model->save())
@@ -30,10 +29,16 @@ class ServiceOrder
         else
             return false;
     }
-    
+    // просмотр заказа с кастомной рецептурой
     public function OrderView($id)
     {
         $sql = $this->order->getOrder($id);
         return (array) json_decode($sql['custom_pizza']);
+    }
+    // изменение рецептуры
+    public function ChangeOrder(Order &$model)
+    {
+        $model['payment'] = PizzaRepository::getPrice($model['id_pizza']);
+        return $model->save();
     }
 }
