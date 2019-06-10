@@ -13,8 +13,11 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'phonenumber')->textInput(['maxlength' => true, 'readonly' => true]) ?>
-
-    <?= $form->field($model, 'id_pizza')->dropDownList($pizza_list) ?>
+    
+    <?php
+        if($model['id_pizza'] != null)
+            echo $form->field($model, 'id_pizza')->dropDownList($pizza_list);
+    ?>
 
     <?= $form->field($model, 'payment')->textInput(['maxlength' => true, 'readonly' => true]) ?>
 

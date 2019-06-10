@@ -21,9 +21,9 @@ class ServicePizza
         $this->pirep = $PizzaRepository;
     }
 
-    // ------------------------ Функции  ------------------------ //
+    // ------------------------ Администратор  ------------------------ //
 
-    // создание пиццы (админ)
+    // создание пиццы
     public function create($POST, &$model, &$ingridients)
     {
         if (($model->load($POST) && $ingridients->load($POST) && ($model->validate())))
@@ -75,6 +75,8 @@ class ServicePizza
         else
             return false;
     }
+
+    // ------------------------ Пользователь ------------------------ //
 
     // заказ обычной пиццы
     public function Order_Pizza($POST, OrderForm &$model)

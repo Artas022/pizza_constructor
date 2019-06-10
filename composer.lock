@@ -4,8 +4,51 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2aab5265fc426e7695dcb9ec2f28dbe0",
+    "content-hash": "d1aabfece883bb3f91df446e5e43e21c",
     "packages": [
+        {
+            "name": "antkaz/yii2-vue",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/antkaz/yii2-vue.git",
+                "reference": "ba341bdbcfffa96662f49fe83152a867191d3b72"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/antkaz/yii2-vue/zipball/ba341bdbcfffa96662f49fe83152a867191d3b72",
+                "reference": "ba341bdbcfffa96662f49fe83152a867191d3b72",
+                "shasum": ""
+            },
+            "require": {
+                "npm-asset/vue": "~2.5.13",
+                "yiisoft/yii2": "~2.0.14"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "antkaz\\vue\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anton Kazarinov",
+                    "email": "askazarinov@gmail.com"
+                }
+            ],
+            "description": "The Vue.js extension for the Yii framework",
+            "homepage": "https://github.com/antkaz/yii2-vue",
+            "keywords": [
+                "Vue.js",
+                "vue",
+                "yii2"
+            ],
+            "time": "2018-03-01T19:37:33+00:00"
+        },
         {
             "name": "bower-asset/bootstrap",
             "version": "v3.4.1",
@@ -424,6 +467,18 @@
                 "yii2"
             ],
             "time": "2018-12-11T10:34:32+00:00"
+        },
+        {
+            "name": "npm-asset/vue",
+            "version": "2.5.22",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/vue/-/vue-2.5.22.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
         },
         {
             "name": "swiftmailer/swiftmailer",

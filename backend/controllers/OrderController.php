@@ -17,12 +17,14 @@ class OrderController extends Controller
 {
     private $Service;
     private $Repo;
+    private $Repo_pizza;
 
     public function __construct($id, $module, array $config=[])
     {
         parent::__construct($id, $module, $config);
         $this->Service = Yii::$container->get(ServiceOrder::class);
         $this->Repo = Yii::$container->get(OrderRepository::class);
+        $this->Repo_pizza = Yii::$container->get(PizzaRepository::class);
     }
 
     public function behaviors()
@@ -58,7 +60,7 @@ class OrderController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'pizza_titles' => PizzaRepository::getAllNotCustomPizza(),
+            'pizza_titles' => $this->Repo_pizza->getAllNotCustomPizza(),
         ]);
     }
     
@@ -67,7 +69,7 @@ class OrderController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
             'reception' => $this->Repo->GetRecept($id),
-            'pizza_titles' => PizzaRepository::getAllNotCustomPizza(),
+            'pizza_titles' => $this->Repo_pizza->getAllNotCustomPizza(),
         ]);
     }
     
@@ -95,7 +97,7 @@ class OrderController extends Controller
 
         return $this->render('update', [
             'model' => $model,
-            'pizza_list' => PizzaRepository::getMapPizza(),
+            'pizza_list' => $this->Repo_pizza->getMapPizza(),
         ]);
     }
     
@@ -108,9 +110,8 @@ class OrderController extends Controller
     
     protected function findModel($id)
     {
-        if (($model = Order::findOne($id)) !== null) {
+        if (($model = Order::findOne($id)) !== null)
             return $model;
-        }
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }

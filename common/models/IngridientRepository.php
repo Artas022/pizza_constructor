@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
 
 class IngridientRepository
 {
-    // Нахождение ингредиентов пиццы по ID
+    // нахождение ингредиентов пиццы по ID
     public function getPizzaIngridients($id)
     {
         return PizzaIngridient::find()->joinWith(['pizza','ingridient'])->asArray()->where(['pizza_id' => $id])->all();;
@@ -23,7 +23,7 @@ class IngridientRepository
     {
         return ArrayHelper::map(Ingridient::find()->all(), 'id_ingridient', 'name');
     }
-    // Нахождение ингредиента по ID
+    // нахождение ингредиента по ID
     public function getIngridientName($ingridient)
     {
         return Ingridient::find()
@@ -31,7 +31,7 @@ class IngridientRepository
             ->where(['id_ingridient' => $ingridient['ingridient_id']])
             ->one();
     }
-    // Нахождение цены ингредиента по ID
+    // нахождение цены ингредиента по ID
     public function getIngridientPriceName($id)
     {
         return Ingridient::find()->select(['price','name'])->where(['id_ingridient' => $id])->one();
@@ -41,7 +41,7 @@ class IngridientRepository
     {
         return Ingridient::find()->select(['id_ingridient','name'])->all();
     }
-    // проверка ингредиента на наличие по имени
+    // проверка ингредиента на наличие по ID
     public static function isIngridientExist($id)
     {
         if(Ingridient::find()->where(['id_ingridient' => $id])->exists())

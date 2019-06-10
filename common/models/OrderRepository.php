@@ -16,7 +16,7 @@ class OrderRepository
     {
         return Order::find()->all();
     }
-    // Поиск рецептуры кастомной пиццы
+    // поиск рецептуры кастомной пиццы
     public function getRecept($id)
     {
         if(Order::find()->select('custom_pizza')->where(['id_order' => $id])->exists())

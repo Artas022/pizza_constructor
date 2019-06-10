@@ -8,14 +8,9 @@
 
 namespace common\models;
 
-
-use common\models\Order;
-
 class ServiceOrder
 {
     private $order;
-    
-    //public $model;
     
     public function __construct(OrderRepository $OrderRepository)
     {

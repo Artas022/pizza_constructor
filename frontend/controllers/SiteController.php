@@ -131,6 +131,17 @@ class SiteController extends Controller
         ]);
     }
 
+    // поле с собственным полем похожим на select2
+    public function actionSelect2()
+    {
+        if(Yii::$app->request->isPost)
+        {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return json_encode($this->Repo_ingr->getMapIngridients(), JSON_UNESCAPED_UNICODE);
+        }
+        return $this->render('select2');
+    }
+    
 }
 
 
