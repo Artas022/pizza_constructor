@@ -136,6 +136,11 @@ class SiteController extends Controller
     {
         if(Yii::$app->request->isPost)
         {
+            $_POST = json_decode(file_get_contents('php://input'), true);
+            if( isset($_POST['status']))
+            {
+                return json_encode($this->Repo_ingr->getFilterIngridients($_POST['search']));
+            }
             Yii::$app->response->format = Response::FORMAT_JSON;
             return json_encode($this->Repo_ingr->getMapIngridients(), JSON_UNESCAPED_UNICODE);
         }

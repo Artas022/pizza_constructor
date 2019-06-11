@@ -49,4 +49,9 @@ class IngridientRepository
         else
             return false;
     }
+    // нахождение ингредиента по фильтру
+    public function getFilterIngridients($search)
+    {
+        return ArrayHelper::map(Ingridient::find()->where(['like','name',$search])->all(), 'id_ingridient', 'name');
+    }
 }

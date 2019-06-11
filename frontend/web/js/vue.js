@@ -1,5 +1,6 @@
 // получить данные из БД +
 // вывести их в поле с именами и значением +
+// фильтрация полей через AJAX
 //
 
 Vue.config.productionTip = false;
@@ -8,7 +9,7 @@ Vue.config.devtools = false;
 var ingr_list = new Vue({
    el: '#select',
    data() {
-       return{
+       return {
            search: '',
            visible: false,
            ingridients: null,
@@ -16,38 +17,49 @@ var ingr_list = new Vue({
            list: []
        }
    },
-   created() {
-       axios.post('select2').then((response) => {
-            this.ingridients = JSON.parse(response.data);
-       });
-   },
    methods:
    {
        // добавление/удаление выбранного ингредиента в/из list
-       select_option: function (ingridient) {
-           // если такой элемент есть в массиве - удалить его
+       add_ingr: function (ingridient, index) {
+           if(!this.delete_ingr(ingridient[index]))
+               this.list.push(ingridient[index]);
+       },
+       // удаление элемента из списка
+       delete_ingr: function (ingridient) {
            for(var i = 0; i < this.list.length; i++)
            {
                if(this.list[i] === ingridient)
                {
                    this.list.splice(i,1);
-                   return 0;
+                   return true;
                }
            }
-           this.list.push(ingridient);
-           console.log(this.list);
+           return false;
        },
-       // отображение блока
-       view: function () {
-         if(!this.visible)
-             this.visible = true;
-       },
-       // обновление элементов списка
-       update_list: function () {
-                
+       // поиск похожих ингредиентов через AJAX
+       search_ingr: function () {
+           console.log(this.search);
+           if(this.search == '')
+           {
+               console.log('Запроса нет');
+               return true;
+           }
+           else
+           {
+               console.log('Попытка связи с сервером!');
+               var params = {status: true, search: this.search};
+               axios.post('select2', params).then((response) => {
+                   console.log(response);
+               });
+           }
        }
-   }
-}); 
+   },
+    created() {
+        axios.post('select2').then((response) => {
+            this.ingridients = JSON.parse(response.data);
+        });
+    }
+});
     
   
 

@@ -7,7 +7,6 @@
 #select_body
 {
     padding: 10px;
-    border: 1px solid red;
 }
 /* Компонент */
 #select2
@@ -16,9 +15,8 @@
     height: 2.3em;
 }
 
-input {
-    width: 100%;
-    height: 2.3em;
+#input_div{
+    border: 1px solid #2c7980;
 }
 
 #list li{
@@ -33,8 +31,43 @@ input {
     padding: 5px;
     border: 1px solid #c1c1c1;
 }
-
+/* Наведение на элементы списка */
 #list li:hover {
-    color: #0b6aaa;
-    background: #d2d2d2;
+    color: #e0e0e0;
+    background: cornflowerblue;
+}
+/* Значок крестика */
+#selected span{
+    margin-right: 3px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+ul#selected{
+    height: 100%;
+    width: 100%;
+    border: 1px solid #898989;
+    padding: 0;
+    font-size: 0;
+    margin: 0;
+}
+
+#selected li {
+    font-family: Arial;
+    margin-right: 2px;
+    display: inline-block;
+    list-style: none;
+    background: cornflowerblue;
+    color: #f7f7f7;
+    border: 1px solid #898989;
+    font-size: 15px;
+}
+
+
+#selected input {
+    font-family: Consolas;
+    color: #3e3e3e;
+    padding: 0;
+    height: 2.4em;
+    border: 1px solid #e1ffeb;
 }
