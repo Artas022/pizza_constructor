@@ -52,6 +52,9 @@ class IngridientRepository
     // нахождение ингредиента по фильтру
     public function getFilterIngridients($search)
     {
-        return ArrayHelper::map(Ingridient::find()->where(['like','name',$search])->all(), 'id_ingridient', 'name');
+        if(Ingridient::find()->where(['like','name',$search])->exists()) 
+            return ArrayHelper::map(Ingridient::find()->where(['like','name',$search])->all(), 'id_ingridient', 'name');
+        else
+            return false;
     }
 }

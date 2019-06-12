@@ -11,9 +11,9 @@ var ingr_list = new Vue({
    data() {
        return {
            search: '',
+           error: false,
            visible: false,
            ingridients: null,
-           selected: null,
            list: []
        }
    },
@@ -38,20 +38,24 @@ var ingr_list = new Vue({
        },
        // поиск похожих ингредиентов через AJAX
        search_ingr: function () {
-           console.log(this.search);
-           if(this.search == '')
-           {
-               console.log('Запроса нет');
-               return true;
-           }
-           else
-           {
-               console.log('Попытка связи с сервером!');
-               var params = {status: true, search: this.search};
-               axios.post('select2', params).then((response) => {
-                   console.log(response);
-               });
-           }
+           if(this.search == ' ')
+               this.search = '';
+           var params = null;
+           if(this.search != '')
+               params = {status: true, search: this.search};
+           axios.post('select2', params).then((response) => {
+               if(typeof (response.data) == 'boolean')
+               {
+                   this.error = true;
+                   this.ingridients = null;
+               }
+               else
+               {
+                   if(this.error)
+                       this.error = false;
+                   this.ingridients = JSON.parse(response.data);
+               }
+           });
        }
    },
     created() {

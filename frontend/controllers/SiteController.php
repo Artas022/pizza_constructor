@@ -1,7 +1,7 @@
 <?php
 namespace frontend\controllers;
 use common\models\IngridientRepository;
-use common\models\Pizza;
+use common\models\ServiceIngridient;
 use common\models\ServicePizza;
 use frontend\models\CreatePizzaForm;
 use frontend\models\OrderForm;
@@ -16,6 +16,7 @@ use yii\web\Response;
 class SiteController extends Controller
 {
     private $Service_Pizza;
+    private $Service_ingr;
     private $Repo;
     private $Repo_ingr;
 
@@ -23,6 +24,8 @@ class SiteController extends Controller
     {
         parent::__construct($id, $module, $config);
         $this->Service_Pizza = Yii::$container->get(ServicePizza::class);
+        $this->Service_ingr = Yii::$container->get(ServiceIngridient::class);
+
         $this->Repo = Yii::$container->get(PizzaRepository::class);
         $this->Repo_ingr = Yii::$container->get(IngridientRepository::class);
     }
@@ -137,12 +140,8 @@ class SiteController extends Controller
         if(Yii::$app->request->isPost)
         {
             $_POST = json_decode(file_get_contents('php://input'), true);
-            if( isset($_POST['status']))
-            {
-                return json_encode($this->Repo_ingr->getFilterIngridients($_POST['search']));
-            }
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return json_encode($this->Repo_ingr->getMapIngridients(), JSON_UNESCAPED_UNICODE);
+            return $this->Service_ingr->FilterIngridients($_POST);
         }
         return $this->render('select2');
     }

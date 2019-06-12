@@ -17,8 +17,20 @@ class ServiceIngridient
     {
         $this->Repo = $ingridientRepository;
     }
-
-
+    // фильтрация для Select2 при поиске ингредиента
+    public function FilterIngridients($data)
+    {
+        // если прислали запрос
+        if(isset($data['status']))
+        {
+            if($this->Repo->getFilterIngridients($data['search']))
+                return json_encode($this->Repo->getFilterIngridients($data['search']), JSON_UNESCAPED_UNICODE);
+            else
+                return false;
+        }
+        else
+            return json_encode($this->Repo->getMapIngridients(), JSON_UNESCAPED_UNICODE);
+    }
 
 
 }

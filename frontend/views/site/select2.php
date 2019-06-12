@@ -17,13 +17,14 @@ VueAsset::register($this);
 
                     <li v-for="(item, index) in list"><span class="remove_ingridient" @click="delete_ingr(item)">&times</span>{{ item }}</li>
 
-                    <li><input @click="visible = !visible" type="text" v-model="search" @keyup="search_ingr"></li>
+                    <li><input @click="visible = true" type="text" v-model="search" @keyup="search_ingr"></li>
 
                 </ul>
 
                 <ul v-show="visible" id="list">
 
                     <li class="selected" v-for="(item,index) of ingridients" :value="index" @click="add_ingr(ingridients, index)" >{{ item }}</li>
+                    <li class="selected" v-if="error" >Not found</li>
 
                 </ul>
             </div>
