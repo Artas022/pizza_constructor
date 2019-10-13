@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use unclead\multipleinput\MultipleInput;
 $this->registerJsFile('@web/js/createform.js');
-$this->title = 'Конструктор пицц AJAX';
+$this->title = 'Конструктор пицц';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-create">
@@ -44,6 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
                     </div>
         </div>
+        <br>
         <?= Html::submitButton('Отправить', ['class' => 'submit btn btn-success']) ?>
         <?= Html::Button('+', ['class' => 'submit btn btn-primary', 'id' => 'add_field']) ?>
         <?= Html::Button('-', ['class' => 'submit btn btn-danger', 'id' => 'delete_field']) ?>

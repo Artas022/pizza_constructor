@@ -81,7 +81,7 @@ class SiteController extends Controller
 
         return $this->render('create', [
                 'model' => $model,
-                'items' => $this->Repo->getMapIngridients(),
+                'items' => $this->Repo_ingr->getMapIngridients(),
             ]
         );
     }

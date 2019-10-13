@@ -10,7 +10,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-create">
     <h1><?= Html::encode($this->title) ?></h1>
-    <a style="color: black; text-decoration: none;" href="<?=Url::toRoute(['site/ajaxcreate'])?>">Перейти на страницу с AJAX запросом... </a>
     <p>Наше заведение позволяет создать собственну пиццу благодаря нашему конструктору!</p>
     <p>Вы можете сами выбрать размер основания пиццы и перечень доступных вам ингредиентов, вплоть до их порций!</p>
     <p class="lead">Пожалуйста, введите ваши данные:</p>

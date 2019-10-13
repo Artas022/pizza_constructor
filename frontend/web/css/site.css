@@ -1,6 +1,48 @@
 html,
 body {
+    background: #0f0f0f;
     height: 100%;
+}
+
+h1,h2,h3,h4,p {
+    color: white;
+}
+
+.btn-dark-2 {
+    border: 1px solid #d7fbe4;
+}
+
+.btn-dark-2:hover {
+    color: white;
+    transition: 0.1s;
+    background: #1e1e1e;
+}
+
+.quote-block {
+    border: 1px solid #c1c1c15c;
+    padding: 10px;
+    background: #a5a5a540;
+    border-radius: 10px;
+}
+.quote-block:hover {
+    transition: 0.2s;
+    background: rgba(165, 165, 165, 0.35);
+}
+
+label {
+    color: white;
+}
+
+#form-order {
+    background: white;
+}
+
+th {
+    color: #c9c9c9;
+}
+
+#menu-table > td {
+    color: #c9c9c9;
 }
 
 .wrap {

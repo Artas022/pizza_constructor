@@ -29,7 +29,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'Пиццерия',
+        'brandLabel' => '🍕Пиццерия🍕',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -37,9 +37,8 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Главная', 'url' => ['/site/index']],
-        ['label' => 'Сделать заказ (AJAX)', 'url' => ['/site/ajaxorder']],
-        ['label' => 'Конструктор пицц (AJAX)', 'url' => ['/site/ajaxcreate']],
-        ['label' => 'Select2 Custom', 'url' => ['/site/select2']],
+        ['label' => 'Сделать заказ', 'url' => ['/site/ajaxorder']],
+        ['label' => 'Конструктор пицц', 'url' => ['/site/ajaxcreate']],
     ];
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
